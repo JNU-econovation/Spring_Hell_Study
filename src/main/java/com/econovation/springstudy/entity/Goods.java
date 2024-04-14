@@ -3,7 +3,7 @@ package com.econovation.springstudy.entity;
 import jakarta.persistence.*;
 
 @Entity
-public class Sticker {
+public class Goods {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,7 +14,7 @@ public class Sticker {
     private int remaining;
 
 
-    public Sticker(String name, int remaining) {
+    public Goods(String name, int remaining) {
         this.name = name;
         this.remaining = remaining;
     }
@@ -27,6 +27,6 @@ public class Sticker {
         this.remaining = remaining;
     }
 
-    public Sticker() {
+    public Goods() {
     }
 }

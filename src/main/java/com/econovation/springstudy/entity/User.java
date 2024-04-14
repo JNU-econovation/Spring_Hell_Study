@@ -17,5 +17,13 @@ public class User {
 
     private String role;
 
+    public User() {
 
+    }
+
+    public User(String nickname, String password, String role) {
+        this.nickname = nickname;
+        this.password = password;
+        this.role = role;
+    }
 }

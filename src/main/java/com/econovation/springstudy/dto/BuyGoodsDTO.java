@@ -2,7 +2,7 @@ package com.econovation.springstudy.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BuyStickerDTO {
+public class BuyGoodsDTO {
     @JsonProperty("sticker_id")
     private Long stickerId;
     private int number;
@@ -11,7 +11,7 @@ public class BuyStickerDTO {
         return stickerId;
     }
 
-    public BuyStickerDTO() {
+    public BuyGoodsDTO() {
     }
 
     public int getNumber() {

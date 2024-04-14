@@ -1,10 +1,10 @@
 package com.econovation.springstudy.repository;
 
-import com.econovation.springstudy.entity.NamwonBusiness;
+import com.econovation.springstudy.entity.Goods;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface NamwonBusinessRepository extends JpaRepository<NamwonBusiness, Long> {
+public interface GoodsRepository extends JpaRepository<Goods, Long> {
 
 }

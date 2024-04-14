@@ -1,6 +1,7 @@
 package com.econovation.springstudy.entity;
 
 import jakarta.persistence.*;
+import org.aspectj.weaver.ast.Or;
 
 @Entity
 public class NamwonPrinterContact {
@@ -10,7 +11,7 @@ public class NamwonPrinterContact {
 
     @ManyToOne
     @JoinColumn
-    private NamwonBusiness namwonBusiness;
+    private Organization organization;
     private int totalBoughtNumber;
     private int boughtNumberForDiscount;
     private int startNumberForDiscount;
@@ -23,8 +24,8 @@ public class NamwonPrinterContact {
         this.boughtNumberForDiscount = boughtNumberForDiscount;
     }
 
-    public NamwonBusiness getNamwonBusiness() {
-        return namwonBusiness;
+    public Organization getOrganization() {
+        return organization;
     }
 
     public int getTotalBoughtNumber() {
@@ -43,8 +44,8 @@ public class NamwonPrinterContact {
         return limitNumberForDiscount;
     }
 
-    public NamwonPrinterContact(NamwonBusiness namwonBusiness, int totalBoughtNumber, int boughtNumberForDiscount, int startNumberForDiscount, int limitNumberForDiscount) {
-        this.namwonBusiness = getNamwonBusiness();
+    public NamwonPrinterContact(Organization organization, int totalBoughtNumber, int boughtNumberForDiscount, int startNumberForDiscount, int limitNumberForDiscount) {
+        this.organization = organization;
         this.totalBoughtNumber = totalBoughtNumber;
         this.boughtNumberForDiscount = boughtNumberForDiscount;
         this.startNumberForDiscount = startNumberForDiscount;

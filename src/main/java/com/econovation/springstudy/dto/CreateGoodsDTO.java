@@ -1,7 +1,7 @@
 package com.econovation.springstudy.dto;
 
 
-import com.econovation.springstudy.entity.Sticker;
+import com.econovation.springstudy.entity.Goods;
 
 public class CreateGoodsDTO {
     private String name;
@@ -23,8 +23,8 @@ public class CreateGoodsDTO {
         return remaining;
     }
 
-    public Sticker toEntity(){
-        return new Sticker(name, remaining);
+    public Goods toEntity(){
+        return new Goods(name, remaining);
     }
 
 }
