@@ -45,14 +45,14 @@
 사용자가 남원인쇄소에 발주를 넣고 남원 인쇄소는 돈이 입금이 되었는지 확인하고 스티커 생산에 들어간다.
 
 ### User
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/0cf0321d-ca0c-4236-a917-602573ea0c26">
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled.png)
 
 공직자에게는 할인과 판매 할 수 있는 최대 수량이 제약적임으로 UserRole을 Enum으로 관리하였다.
 
 ## Publish
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%201.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/c0128580-b536-401f-a308-624456b44bea">
 
 누가(User), 무엇을(stickerName), 얼마나(quantity) 발주를 넣었는지 알 수 있도록 하고,
 
@@ -60,7 +60,7 @@
 
 ## Sticker
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%202.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/5474d3b0-ca61-4bb5-ac18-051eb47c1ec1">
 
 이 스티커는 남원 시청에서 가지고 있는 Sticker이다.
 
@@ -74,7 +74,7 @@
 
 ### Controller
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%203.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/d4bca586-fd44-46de-99bf-32dd78a26f52">
 
 발주가 곧 스티커를 만들어내는 행위이기 때문에 /api/sticker (POST)로 end point url을 설정했지만 sticker를 상품으로 보고 /api/publish/sticker 라고 설정해도 될 것 같다.
 
@@ -82,9 +82,9 @@
 
 ### RequestDto
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%204.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/e65930f1-5fad-4a2a-a045-e8cc7734f20e">
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%205.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/ce9d6a44-bfbb-4922-b58c-0af60a494df5">
 
 여러개의 스티커를 한번에 발주 넣을 수 있음으로 발주에 해당하는 것을 `PublishDto`
 
@@ -95,7 +95,7 @@
 
 ## UseCase(Service)
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%206.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/2d036b50-2725-437c-99c3-23b7cce693cf">
 
 UserCase를 인터페이스로 하고 그것을 구현한 Service가 있어야 하지만 구현체가 1개라고 가정하고 UseCase를 Serive로 작성하였다.
 
@@ -115,7 +115,7 @@ UserCase를 인터페이스로 하고 그것을 구현한 Service가 있어야 �
 
 ## 스티커 재고 조회
 
-![Untitled](Spring%20Study%2047c60322d5624142b4cebd6354f09611/Untitled%207.png)
+<img width="679" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/125119237/71bbdf03-5270-4491-af8a-331e5e165aab">
 
 이것은 간단하니 설명을 생략하도록 하겠다.
 
