@@ -3,7 +3,6 @@ package com.econovation.springstudy.service;
 import com.econovation.springstudy.dto.BuyGoodsDTO;
 import com.econovation.springstudy.dto.CreateGoodsDTO;
 import com.econovation.springstudy.entity.Goods;
-import com.econovation.springstudy.repository.OrganizationRepository;
 import com.econovation.springstudy.repository.GoodsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GoodsService {
     private final GoodsRepository goodsRepository;
-    private final OrganizationRepository organizationRepository;
 
-    public GoodsService(GoodsRepository goodsRepository, OrganizationRepository organizationRepository) {
+    public GoodsService(GoodsRepository goodsRepository) {
         this.goodsRepository = goodsRepository;
-        this.organizationRepository = organizationRepository;
     }
 
     @Transactional
