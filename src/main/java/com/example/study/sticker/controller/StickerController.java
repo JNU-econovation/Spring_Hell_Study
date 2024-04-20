@@ -1,7 +1,6 @@
 package com.example.study.sticker.controller;
 
-import com.example.study.sticker.dto.AddStickerRequest;
-import com.example.study.sticker.dto.BuyStickerRequest;
+import com.example.study.sticker.dto.SellStickerRequest;
 import com.example.study.sticker.dto.GetStickerRequest;
 import com.example.study.sticker.service.StickerService;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +15,6 @@ public class StickerController {
 
     private final StickerService stickerService;
 
-    @PostMapping("/sticker")
-    public ResponseEntity<Void> add(@RequestBody AddStickerRequest addStickerRequest){
-        stickerService.add(addStickerRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
-    }
-
     @GetMapping("/sticker")
     public ResponseEntity<Long> getCount(GetStickerRequest getStickerRequest){
         Long count = stickerService.get(getStickerRequest);
@@ -29,8 +22,8 @@ public class StickerController {
     }
 
     @PatchMapping("/sticker")
-    public ResponseEntity<Void> buy(@RequestBody BuyStickerRequest buyStickerRequest){
-        stickerService.buy(buyStickerRequest);
+    public ResponseEntity<Void> buy(@RequestBody SellStickerRequest sellStickerRequest){
+        stickerService.buy(sellStickerRequest);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
