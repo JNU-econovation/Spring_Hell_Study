@@ -6,9 +6,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GeneratorType;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Entity
+@Table(name = "publish")
 @NoArgsConstructor
 @Getter
 public class Publish {
@@ -17,6 +19,7 @@ public class Publish {
     Long id;
     private String stickerName;
     @ManyToOne
+    @JoinColumn(name = "users_id")
     private User user;
     private Integer quantity;
 

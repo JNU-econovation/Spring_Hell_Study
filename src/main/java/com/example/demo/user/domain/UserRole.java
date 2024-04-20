@@ -2,7 +2,7 @@ package com.example.demo.user.domain;
 
 public enum UserRole {
     USER("USER"),
-    GOVERMENT("GOVERMENT");
+    GOVERNMENT("GOVERNMENT");
 
     private final String value;
 
