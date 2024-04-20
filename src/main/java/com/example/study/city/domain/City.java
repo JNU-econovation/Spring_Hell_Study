@@ -1,6 +1,5 @@
 package com.example.study.city.domain;
 
-import com.example.study.sticker.domain.Sticker;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -11,20 +10,20 @@ public class City {
 
     private String name;
     private Long budget;
-    private List<Sticker> stickers;
+    private List<String> stickerNames;
 
     @Builder
-    public City(String name, Long budget, List<Sticker> stickers) {
+    public City(String name, Long budget, List<String> stickerNames) {
         this.name = name;
         this.budget = budget;
-        this.stickers = stickers;
+        this.stickerNames = stickerNames;
     }
 
     public City updateBudget(Long price){
         return City.builder()
                 .name(this.name)
                 .budget(this.budget - price)
-                .stickers(this.stickers)
+                .stickerNames(this.stickerNames)
                 .build();
     }
 }
