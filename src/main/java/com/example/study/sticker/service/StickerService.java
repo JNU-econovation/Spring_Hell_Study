@@ -1,5 +1,6 @@
 package com.example.study.sticker.service;
 
+import com.example.study.city.dto.AddStickerRequest;
 import com.example.study.city.dto.FindStickersResponse;
 import com.example.study.city.dto.StickerDTO;
 import com.example.study.city.service.CityService;
@@ -27,11 +28,14 @@ public class StickerService{
     private final DiscountService discountService;
     private final MemberService memberService;
 
-    public List<String> add(List<String> stickerNames, List<StickerDTO> stickerDTOS) {
+    public void add(String cityName, AddStickerRequest addStickerRequest) {
+        cityService.pay(cityName, addStickerRequest);
+
+        List<String> stickerNames = cityService.findStickers(cityName);
 
         List<String> newStickerNames = new ArrayList<>(stickerNames);
 
-        for(StickerDTO stickerDTO : stickerDTOS) {
+        for(StickerDTO stickerDTO : addStickerRequest.stickerDTOs()) {
             if(stickerNames.contains(stickerDTO.name())){
                 Sticker sticker = stickerRepository.find(stickerDTO.name()).orElseThrow(NullPointerException::new);
                 Sticker updatedSticker = sticker.plusStock(stickerDTO.count());
@@ -43,7 +47,7 @@ public class StickerService{
             }
         }
 
-        return newStickerNames;
+        cityService.updateCityStickers(cityName, newStickerNames);
     }
 
     public FindStickersResponse findStickerStocks(String cityName){

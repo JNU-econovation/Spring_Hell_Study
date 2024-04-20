@@ -4,11 +4,11 @@ import lombok.Builder;
 
 import java.util.List;
 
-public record BuyStickerRequest(
-        List<StickerDTO> buyStickerDTOS
+public record AddStickerRequest(
+        List<StickerDTO> stickerDTOs
 ) {
 
     @Builder
-    public BuyStickerRequest {
+    public AddStickerRequest {
     }
 }

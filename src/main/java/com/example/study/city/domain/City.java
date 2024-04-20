@@ -19,10 +19,18 @@ public class City {
         this.stickerNames = stickerNames;
     }
 
-    public City updateBudget(Long price, List<String> stickerNames){
+    public City updateBudget(Long price){
         return City.builder()
                 .name(this.name)
                 .budget(this.budget - price)
+                .stickerNames(this.stickerNames)
+                .build();
+    }
+
+    public City updateStickerNames(List<String> stickerNames){
+        return City.builder()
+                .name(this.name)
+                .budget(this.budget)
                 .stickerNames(stickerNames)
                 .build();
     }
