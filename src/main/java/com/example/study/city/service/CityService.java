@@ -36,9 +36,9 @@ public class CityService {
 
     }
 
-    public FindStickersResponse findStickers(){
-        City city = cityRepository.find(Region.남원.name());
+    public List<String> findStickers(String name){
+        City city = cityRepository.find(name);
         List<String> stickerNames = city.getStickerNames();
-        return stickerService.findAll(stickerNames);
+        return stickerNames;
     }
 }

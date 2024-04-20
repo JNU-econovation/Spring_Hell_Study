@@ -2,6 +2,7 @@ package com.example.study.sticker.service;
 
 import com.example.study.city.dto.FindStickersResponse;
 import com.example.study.city.dto.StickerDTO;
+import com.example.study.city.service.CityService;
 import com.example.study.discount.domain.DiscountService;
 import com.example.study.member.domain.Member;
 import com.example.study.member.domain.MemberType;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class StickerService{
 
     private final StickerRepository stickerRepository;
+    private final CityService cityService;
     private final DiscountService discountService;
     private final MemberService memberService;
 
@@ -44,7 +46,8 @@ public class StickerService{
         return newStickerNames;
     }
 
-    public FindStickersResponse findAll(List<String> stickerNames){
+    public FindStickersResponse findStickerStocks(String cityName){
+        List<String> stickerNames = cityService.findStickers(cityName);
         List<Sticker> stickers = stickerRepository.findAll(stickerNames);
         List<StickerDTO> stickerDTOS = stickers.stream()
                 .map(sticker -> new StickerDTO(sticker.getName(), sticker.getStock()))
