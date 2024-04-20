@@ -13,7 +13,5 @@ public interface StickerRepository {
 
     Optional<Sticker> find(String name);
 
-    void update(Sticker sticker);
-
     List<Sticker> findAll();
 }

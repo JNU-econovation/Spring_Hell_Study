@@ -21,11 +21,6 @@ public class StickerMemoryRepository implements StickerRepository{
     }
 
     @Override
-    public void update(Sticker sticker) {
-        stickerHashMap.put(sticker.getName(),sticker);
-    }
-
-    @Override
     public List<Sticker> findAll() {
         Set<String> keys = stickerHashMap.keySet();
         List<Sticker> stickers = new ArrayList<>();
