@@ -1,9 +1,8 @@
 package com.example.study.sticker.controller;
 
 import com.example.study.city.domain.Region;
-import com.example.study.city.dto.BuyStickerRequest;
+import com.example.study.city.dto.AddStickerRequest;
 import com.example.study.city.dto.FindStickersResponse;
-import com.example.study.city.service.CityService;
 import com.example.study.sticker.service.StickerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,13 +15,17 @@ import org.springframework.web.bind.annotation.*;
 public class StickerController {
 
     private final StickerService stickerService;
-    private final CityService cityService;
-    @PatchMapping("/sticker")
-    public ResponseEntity<Void> buy(@RequestBody SellStickerRequest sellStickerRequest){
-        stickerService.buy(sellStickerRequest);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
+    /**
+     * 스티커 구매 API
+     * @param addStickerRequest
+     * @return
+     */
+    @PostMapping("/sticker")
+    public ResponseEntity<Void> addSticker(@RequestBody AddStickerRequest addStickerRequest){
+        stickerService.add(Region.남원.name(), addStickerRequest);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 
     /**
      * 스티커 재고 조회 API
