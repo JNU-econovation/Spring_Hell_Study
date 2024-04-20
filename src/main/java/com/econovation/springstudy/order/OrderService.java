@@ -15,4 +15,6 @@ public interface OrderService {
     boolean discount(int quantity); // 공직자 할인 혜택 적용
     
     int getTotalStock(); // 전체 상품 수량 가져오기
+
+    void addGoodsStock();
 }

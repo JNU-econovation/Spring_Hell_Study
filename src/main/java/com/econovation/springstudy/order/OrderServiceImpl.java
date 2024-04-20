@@ -89,4 +89,19 @@ public class OrderServiceImpl implements OrderService {
         }
         return totalStock;
     }
+
+    @Override
+    public void addGoodsStock() {
+        List<BaseGoods> goodsList = goodsRepository.findAll();
+        for (BaseGoods baseGoods : goodsList) {
+            // 상품의 재고가 100개 아래로 내려가면 100개씩 재발주
+            if(baseGoods.getStock()<100){
+                int currentStock = baseGoods.getStock();
+                System.out.println(baseGoods.getName() + "을 추가로 100개 발주합니다.");
+                currentStock += 100;
+                baseGoods.setStock(currentStock);
+                System.out.println("발주가 성공적으로 마무리 되었습니다.");
+            }
+        }
+    }
 }

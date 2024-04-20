@@ -38,8 +38,9 @@ public class GoodsApp {
         OrderService orderService = new OrderServiceImpl();
         Random random = new Random();
         orderService.getTotalStock();
-        for(int i=0; i<500; i++){
-            orderService.sellGoods(random.nextInt(1)+1);
+        for(int i=0; i<502; i++){
+            orderService.addGoodsStock();
+            orderService.sellGoods(random.nextInt(3)+1);
             System.out.println("============================");
         }
 
