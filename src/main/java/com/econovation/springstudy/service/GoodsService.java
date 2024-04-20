@@ -1,6 +1,6 @@
 package com.econovation.springstudy.service;
 
-import com.econovation.springstudy.dto.goods.BuyGoodsReq;
+import com.econovation.springstudy.dto.goods.RestockGoodsReq;
 import com.econovation.springstudy.dto.goods.CreateGoodsReq;
 import com.econovation.springstudy.entity.Goods;
 import com.econovation.springstudy.repository.GoodsRepository;
@@ -23,7 +23,7 @@ public class GoodsService {
     }
 
     @Transactional
-    public void buyGoods(BuyGoodsReq buyGoodsReq){
+    public void restockGoods(RestockGoodsReq restockGoodsReq){
 
         //구매한 스티커 고려해서 할인 적용해서 총 금액 계산
         //금액 확인하고 차감
@@ -43,8 +43,8 @@ public class GoodsService {
     }
 
     @Transactional(readOnly = true)
-    public int getTheStickerNumber(Long stickerId){
-        Goods goods = goodsRepository.findById(stickerId).orElseThrow(()->new IllegalArgumentException("그런 스티커 없어요."));
+    public int getTheGoodsNumber(Long goodsId){
+        Goods goods = goodsRepository.findById(goodsId).orElseThrow(()->new IllegalArgumentException("그런 굿즈 없어요."));
         return goods.getRemaining();
     }
 

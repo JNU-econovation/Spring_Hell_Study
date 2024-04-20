@@ -1,7 +1,7 @@
 package com.econovation.springstudy.controller;
 
 
-import com.econovation.springstudy.dto.goods.BuyGoodsReq;
+import com.econovation.springstudy.dto.goods.RestockGoodsReq;
 import com.econovation.springstudy.dto.goods.CreateGoodsReq;
 import com.econovation.springstudy.service.GoodsService;
 import jakarta.validation.Valid;
@@ -25,28 +25,28 @@ public class GoodsController {
     }
 
     //재고 확인
-    @GetMapping("/goods/{sticker-id}")
-    public String getTheStickerNumber(@PathVariable("sticker-id") Long stickerId){
-        int stickerNumber = goodsService.getTheStickerNumber(stickerId);
+    @GetMapping("/goods/{goods-id}")
+    public String getTheGoodsNumber(@PathVariable("goods-id") Long goodsId){
+        int goodsNumber = goodsService.getTheGoodsNumber(goodsId);
 
-        return stickerId + "번 스티커의 개수 : " +stickerNumber;
+        return goodsId + "번 굿즈의 개수 : " +goodsNumber;
     }
 
 
     //판매 (남원 시청 -> 고객)
-    @PostMapping("/selling")
+    @PostMapping("/buying")
     public String sellSticker(@RequestBody int number){
 
         return "";
     }
 
     //구매 (남원 시청 -> 남원 인쇄소)
-    @PostMapping("/buying")
-    public String buySticker(@RequestBody BuyGoodsReq buyGoodsReq){
+    @PostMapping("/restocking")
+    public String restockGoods(@RequestBody @Valid RestockGoodsReq restockGoodsReq){
         //TODO: 어노테이션으로 검증
-        if (buyGoodsReq.getNumber() % 100 != 0)
+        if (restockGoodsReq.getNumber() % 100 != 0)
             throw new IllegalArgumentException("스티커 개수는 100개 단위어야 함");
-        goodsService.buyGoods(buyGoodsReq);
+        goodsService.restockGoods(restockGoodsReq);
         return "";
     }
 
