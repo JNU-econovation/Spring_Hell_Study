@@ -28,9 +28,9 @@ public class Sticker {
                 .build();
     }
 
-    public Sticker updateStock(Long buyCount){
+    public Sticker plusStock(Long count){
         return Sticker.builder()
-                .stock(this.stock - buyCount)
+                .stock(this.stock + count)
                 .name(this.name)
                 .build();
     }

@@ -5,8 +5,11 @@ import com.example.study.city.domain.Region;
 import com.example.study.city.repository.CityRepository;
 import com.example.study.printer.domain.Printer;
 import com.example.study.city.dto.BuyStickerRequest;
+import com.example.study.sticker.service.StickerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -14,6 +17,7 @@ public class CityService {
 
     private final CityRepository cityRepository;
     private final Printer printer;
+    private final StickerService stickerService;
     public void buy(BuyStickerRequest buyStickerRequest) {
 
         // 스티커 가격 조회
@@ -26,9 +30,9 @@ public class CityService {
         // 스티커 구매
         if(cityBudget >= stickerPrice){
             City city = cityRepository.find(Region.남원.name());
-            cityRepository.save(city.updateBudget(stickerPrice));
+            List<String> stickerNames = stickerService.add(city.getStickerNames(), buyStickerRequest.buyStickerDTOS());
+            cityRepository.save(city.updateBudget(stickerPrice, stickerNames));
         }
-
 
     }
 }

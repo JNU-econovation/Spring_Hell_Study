@@ -1,19 +1,19 @@
 package com.example.study.sticker.service;
 
+import com.example.study.city.dto.StickerDTO;
 import com.example.study.discount.domain.DiscountService;
 import com.example.study.member.domain.Member;
 import com.example.study.member.domain.MemberType;
 import com.example.study.member.service.MemberService;
 import com.example.study.sticker.domain.Sticker;
 import com.example.study.sticker.domain.Stickers;
-import com.example.study.sticker.dto.AddStickerRequest;
 import com.example.study.sticker.dto.BuyStickerRequest;
 import com.example.study.sticker.dto.GetStickerRequest;
 import com.example.study.sticker.repository.StickerRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.Singular;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,9 +24,23 @@ public class StickerService{
     private final DiscountService discountService;
     private final MemberService memberService;
 
-    public void add(AddStickerRequest addStickerRequest) {
-        Sticker sticker = Sticker.createSticker(addStickerRequest.name(), addStickerRequest.count());
-        stickerRepository.save(sticker);
+    public List<String> add(List<String> stickerNames, List<StickerDTO> stickerDTOS) {
+
+        List<String> newStickerNames = new ArrayList<>(stickerNames);
+
+        for(StickerDTO stickerDTO : stickerDTOS) {
+            if(stickerNames.contains(stickerDTO.name())){
+                Sticker sticker = stickerRepository.find(stickerDTO.name()).orElseThrow(NullPointerException::new);
+                Sticker updatedSticker = sticker.plusStock(stickerDTO.count());
+                stickerRepository.save(updatedSticker);
+            }else{
+                Sticker sticker = Sticker.createSticker(stickerDTO.name(), stickerDTO.count());
+                stickerRepository.save(sticker);
+                newStickerNames.add(stickerDTO.name());
+            }
+        }
+
+        return newStickerNames;
     }
 
     public Long get(GetStickerRequest stickerRequest){
