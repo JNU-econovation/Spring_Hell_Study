@@ -1,5 +1,6 @@
 package com.example.demo.publish.service;
 
+import com.example.demo.common.message.StaticMessage;
 import com.example.demo.publish.domain.Publish;
 import com.example.demo.publish.model.response.PublishStickerResponse;
 import com.example.demo.publish.repository.PublishRepository;
@@ -9,7 +10,6 @@ import com.example.demo.sticker.repository.StickerRepository;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,8 +23,8 @@ public class PublishStickerUseCase {
     private final StickerRepository stickerRepository;
     @Transactional
     public PublishStickerResponse execute(PublishStickerRequest request) {
-        Long userId = 1L;
-        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("Not found member"));
+        Long userId = request.userId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(StaticMessage.NOT_FOUND_MEMBER));
         List<String> stickerNames =  request.stickers().stream()
                 .map(publishDto -> {
                     checkQuantity(publishDto.getQuantity());
@@ -33,7 +33,7 @@ public class PublishStickerUseCase {
                     return publishRepository.save(publish);
                 })
                 .map(publish -> {
-                  Sticker sticker = new Sticker(publish.getStickerName(),publish.getQuantity());
+                  Sticker sticker = Sticker.builder().name(publish.getStickerName()).initialStock(publish.getQuantity()).build();
                   return stickerRepository.save(sticker);
                 })
                 .map(Sticker::getName)
