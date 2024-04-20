@@ -1,5 +1,6 @@
 package com.example.study.sticker.service;
 
+import com.example.study.city.dto.FindStickersResponse;
 import com.example.study.city.dto.StickerDTO;
 import com.example.study.discount.domain.DiscountService;
 import com.example.study.member.domain.Member;
@@ -8,13 +9,13 @@ import com.example.study.member.service.MemberService;
 import com.example.study.sticker.domain.Sticker;
 import com.example.study.sticker.domain.Stickers;
 import com.example.study.sticker.dto.BuyStickerRequest;
-import com.example.study.sticker.dto.GetStickerRequest;
 import com.example.study.sticker.repository.StickerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,9 +44,12 @@ public class StickerService{
         return newStickerNames;
     }
 
-    public Long get(GetStickerRequest stickerRequest){
-        Sticker sticker = stickerRepository.find(stickerRequest.name()).orElseThrow(NullPointerException::new);
-        return sticker.getStock();
+    public FindStickersResponse findAll(List<String> stickerNames){
+        List<Sticker> stickers = stickerRepository.findAll(stickerNames);
+        List<StickerDTO> stickerDTOS = stickers.stream()
+                .map(sticker -> new StickerDTO(sticker.getName(), sticker.getStock()))
+                .collect(Collectors.toList());
+        return new FindStickersResponse(stickerDTOS);
     }
 
     public void buy(BuyStickerRequest buyStickerRequest){

@@ -2,13 +2,13 @@ package com.example.study.city.service;
 
 import com.example.study.city.domain.City;
 import com.example.study.city.domain.Region;
+import com.example.study.city.dto.FindStickersResponse;
 import com.example.study.city.repository.CityRepository;
 import com.example.study.printer.domain.Printer;
 import com.example.study.city.dto.BuyStickerRequest;
 import com.example.study.sticker.service.StickerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -34,5 +34,11 @@ public class CityService {
             cityRepository.save(city.updateBudget(stickerPrice, stickerNames));
         }
 
+    }
+
+    public FindStickersResponse findStickers(){
+        City city = cityRepository.find(Region.남원.name());
+        List<String> stickerNames = city.getStickerNames();
+        return stickerService.findAll(stickerNames);
     }
 }

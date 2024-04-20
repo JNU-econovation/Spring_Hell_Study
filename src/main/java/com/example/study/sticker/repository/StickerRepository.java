@@ -13,5 +13,5 @@ public interface StickerRepository {
 
     Optional<Sticker> find(String name);
 
-    List<Sticker> findAll();
+    List<Sticker> findAll(List<String> names);
 }

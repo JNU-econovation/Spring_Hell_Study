@@ -21,12 +21,11 @@ public class StickerMemoryRepository implements StickerRepository{
     }
 
     @Override
-    public List<Sticker> findAll() {
-        Set<String> keys = stickerHashMap.keySet();
+    public List<Sticker> findAll(List<String> names) {
         List<Sticker> stickers = new ArrayList<>();
 
-        for(String key : keys){
-            Sticker sticker = stickerHashMap.get(key);
+        for(String name : names){
+            Sticker sticker = stickerHashMap.get(name);
             stickers.add(sticker);
         }
 
