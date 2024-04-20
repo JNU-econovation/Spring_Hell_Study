@@ -1,9 +1,10 @@
 package com.econovation.springstudy.controller;
 
 
-import com.econovation.springstudy.dto.BuyGoodsDTO;
-import com.econovation.springstudy.dto.CreateGoodsDTO;
+import com.econovation.springstudy.dto.goods.BuyGoodsReq;
+import com.econovation.springstudy.dto.goods.CreateGoodsReq;
 import com.econovation.springstudy.service.GoodsService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class GoodsController {
 
     //굿즈 추가
     @PostMapping("/goods")
-    public String createSticker(@RequestBody CreateGoodsDTO goodsDTO){
+    public String createSticker(@RequestBody @Valid CreateGoodsReq goodsDTO){
         //TODO: 권한 확인 - 시청 직원
         goodsService.createGoods(goodsDTO);
         return "";
@@ -41,11 +42,11 @@ public class GoodsController {
 
     //구매 (남원 시청 -> 남원 인쇄소)
     @PostMapping("/buying")
-    public String buySticker(@RequestBody BuyGoodsDTO buyGoodsDTO){
+    public String buySticker(@RequestBody BuyGoodsReq buyGoodsReq){
         //TODO: 어노테이션으로 검증
-        if (buyGoodsDTO.getNumber() % 100 != 0)
+        if (buyGoodsReq.getNumber() % 100 != 0)
             throw new IllegalArgumentException("스티커 개수는 100개 단위어야 함");
-        goodsService.buyGoods(buyGoodsDTO);
+        goodsService.buyGoods(buyGoodsReq);
         return "";
     }
 

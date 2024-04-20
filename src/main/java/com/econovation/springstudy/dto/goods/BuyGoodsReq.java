@@ -1,8 +1,8 @@
-package com.econovation.springstudy.dto;
+package com.econovation.springstudy.dto.goods;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BuyGoodsDTO {
+public class BuyGoodsReq {
     @JsonProperty("sticker_id")
     private Long stickerId;
     private int number;
@@ -11,7 +11,7 @@ public class BuyGoodsDTO {
         return stickerId;
     }
 
-    public BuyGoodsDTO() {
+    public BuyGoodsReq() {
     }
 
     public int getNumber() {

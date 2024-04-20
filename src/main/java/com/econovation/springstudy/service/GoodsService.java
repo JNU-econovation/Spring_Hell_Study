@@ -1,7 +1,7 @@
 package com.econovation.springstudy.service;
 
-import com.econovation.springstudy.dto.BuyGoodsDTO;
-import com.econovation.springstudy.dto.CreateGoodsDTO;
+import com.econovation.springstudy.dto.goods.BuyGoodsReq;
+import com.econovation.springstudy.dto.goods.CreateGoodsReq;
 import com.econovation.springstudy.entity.Goods;
 import com.econovation.springstudy.repository.GoodsRepository;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,13 @@ public class GoodsService {
     }
 
     @Transactional
-    public void createGoods(CreateGoodsDTO createGoodsDTO){
-        Goods goods = createGoodsDTO.toEntity();
+    public void createGoods(CreateGoodsReq createGoodsReq){
+        Goods goods = createGoodsReq.toEntity();
         goodsRepository.save(goods);
     }
 
     @Transactional
-    public void buyGoods(BuyGoodsDTO buyGoodsDTO){
+    public void buyGoods(BuyGoodsReq buyGoodsReq){
 
         //구매한 스티커 고려해서 할인 적용해서 총 금액 계산
         //금액 확인하고 차감
