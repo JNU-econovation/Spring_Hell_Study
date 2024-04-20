@@ -3,7 +3,7 @@ package com.econovation.springstudy.goods;
 public class NamwonGoods implements BaseGoods{
     private Long id; // 상품의 아이디
     private String name; // 상품의 이름
-    private int price; // 상품의 가격
+    private int price; // 상품의 가격 -> 발주시 가격
     private int stock; // 상품의 재고
 
     // 생성자를 통해 스티커 생성

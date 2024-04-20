@@ -1,6 +1,8 @@
 package com.econovation.springstudy.goods;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class NamwonGoodsRepository implements GoodsRepository{
@@ -21,5 +23,7 @@ public class NamwonGoodsRepository implements GoodsRepository{
         return store.get(id).getStock();
     }
 
-
+    public List<BaseGoods> findAll(){
+        return new ArrayList<>(store.values());
+    }
 }
