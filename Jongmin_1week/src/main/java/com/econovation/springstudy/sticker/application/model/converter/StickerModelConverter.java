@@ -14,6 +14,8 @@ public class StickerModelConverter {
                 entity.getId(),
                 entity.getName(),
                 entity.getRemain(),
+                entity.getOfficialPurchasable(),
+                entity.getNonOfficialPurchasable(),
                 entity.getPrice()
         );
     }
