@@ -82,6 +82,8 @@ public class StickerService{
         // 공직자에게 제공할 수 있는 모든 판매 갯수는 전체 갯수의 30%로 제한
         long maxOfficialBuyCount = (long) (allStickerStocks * 0.3);
 
+        Long originalPrice = Sticker.PRICE * sellStickerRequest.count();
+
         if(MemberType.isPublicOfficial(member.getType())){
             Long officialBuyCount = memoryBuyCountRepository.find();
             if(officialBuyCount > maxOfficialBuyCount){
@@ -91,10 +93,17 @@ public class StickerService{
             memoryBuyCountRepository.increment(sellStickerRequest.count());
 
             // 공직자일 시 10% 할인 판매
+            long discountPrice = Math.subtractExact(originalPrice, originalPrice / 10);
+            if(sellStickerRequest.money() < discountPrice){
+                throw new IllegalArgumentException("돈이 부족합니다.");
+            }
         }
 
 
         // 일반일 시 그냥 판매
+        if(sellStickerRequest.money() < originalPrice){
+            throw new IllegalArgumentException("돈이 부족합니다.");
+        }
 
         // 스티커 랜덤 선택후 재고 반영
         Map<String, Long> stickerAllocation = randomAllocate(stickers, buyCount);
