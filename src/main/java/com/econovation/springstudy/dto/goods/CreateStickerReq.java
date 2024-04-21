@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotNull;
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class CreateStickerReq extends CreateGoodsReq{
     @NotNull
-    private StickerLevel stickerLevel;
+    private final StickerLevel stickerLevel;
 
     public StickerLevel getStickerLevel() {
         return stickerLevel;
@@ -21,10 +21,11 @@ public class CreateStickerReq extends CreateGoodsReq{
     @Override
     public Goods toEntity() {
         return Sticker.builder()
-                .stickerLevel(this.stickerLevel)
                 .name(this.name)
                 .remaining(this.remaining)
                 .sellingPrice(this.sellingPrice)
+                .goodsType(this.goodsType)
+                .stickerLevel(this.stickerLevel)
                 .build();
     }
 

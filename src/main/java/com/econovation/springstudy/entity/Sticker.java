@@ -1,5 +1,6 @@
 package com.econovation.springstudy.entity;
 
+import com.econovation.springstudy.config.enums.GoodsType;
 import com.econovation.springstudy.config.enums.StickerLevel;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
@@ -11,9 +12,13 @@ public class Sticker extends Goods{
     @Column(nullable = false)
     private StickerLevel stickerLevel;
 
-    public Sticker(String name, int remaining, int sellingPrice, StickerLevel stickerLevel) {
-        super(name, remaining, sellingPrice);
+    public Sticker(String name, int remaining, int sellingPrice, GoodsType goodsType, StickerLevel stickerLevel) {
+        super(name, remaining, sellingPrice, goodsType);
         this.stickerLevel = stickerLevel;
+    }
+
+    public StickerLevel getStickerLevel() {
+        return stickerLevel;
     }
 
     public static StickerBuilder builder(){
@@ -35,7 +40,7 @@ public class Sticker extends Goods{
 
         @Override
         public Sticker build() {
-            return new Sticker(this.name, this.remaining, this.sellingPrice, this.stickerLevel);
+            return new Sticker(this.name, this.remaining, this.sellingPrice, this.goodsType, this.stickerLevel);
         }
     }
 
