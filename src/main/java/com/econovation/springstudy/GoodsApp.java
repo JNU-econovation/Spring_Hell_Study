@@ -38,11 +38,17 @@ public class GoodsApp {
         OrderService orderService = new OrderServiceImpl();
         Random random = new Random();
         orderService.getTotalStock();
-        for(int i=0; i<502; i++){
+        for(int i=0; i<12; i++){
             orderService.addGoodsStock();
-            orderService.sellGoods(random.nextInt(3)+1);
+            orderService.sellGoods(random.nextInt(2)+1);
             System.out.println("============================");
         }
 
+        // 실시간 goods 추가
+        BaseGoods goods7 = new NamwonGoods(7L,"남원 야생동물 스티커",100,1000);
+        goodsService.createGoods(goods7);
+
+
+        
     }
 }
