@@ -1,9 +1,11 @@
 package com.example.demo.sticker.controller;
 
 import com.example.demo.sticker.model.request.SetStickerPriceRequest;
+import com.example.demo.sticker.model.request.SetStickerRankRequest;
 import com.example.demo.sticker.model.response.GetStickerStockResponse;
 import com.example.demo.sticker.service.GetStickerStockUseCase;
 import com.example.demo.sticker.service.SetStickerPriceUseCase;
+import com.example.demo.sticker.service.SetStickerRankUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class StickerController {
     private final GetStickerStockUseCase getStickerStockUseCase;
     private final SetStickerPriceUseCase setStickerPriceUseCase;
+    private final SetStickerRankUseCase setStickerRankUseCase;
     @GetMapping("/sticker/stock/{stickerId}")
     public ResponseEntity<GetStickerStockResponse> getStickerStock(@PathVariable Long stickerId) {
         GetStickerStockResponse response = getStickerStockUseCase.execute(stickerId);
@@ -30,5 +33,11 @@ public class StickerController {
     public ResponseEntity<String> setStickerPrice(@PathVariable Long stickerId, @RequestBody SetStickerPriceRequest request) {
         setStickerPriceUseCase.execute(stickerId,request);
         return ResponseEntity.ok("가격 수정이 완료 되었습니다.");
+    }
+
+    @PostMapping("/sticker/rank/{stickerId}")
+    public ResponseEntity<String> setStickerRank(@PathVariable Long stickerId, @RequestBody SetStickerRankRequest request) {
+        setStickerRankUseCase.execute(stickerId,request);
+        return ResponseEntity.ok("랭크 수정이 완료 되었습니다.");
     }
 }

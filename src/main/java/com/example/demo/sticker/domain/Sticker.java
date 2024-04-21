@@ -16,6 +16,9 @@ public class Sticker {
     private Integer stock;
     private Integer initialStock;
     private Integer price;
+
+    @Enumerated(EnumType.STRING)
+    private StickerRank rank;
     @Builder
     public Sticker(String name, Integer initialStock) {
         this.name = name;
@@ -29,4 +32,6 @@ public class Sticker {
     }
 
     public void updatePrice(Integer price) {this.price = price; }
+
+    public void updateRank(StickerRank rank) {this.rank = rank; }
 }
