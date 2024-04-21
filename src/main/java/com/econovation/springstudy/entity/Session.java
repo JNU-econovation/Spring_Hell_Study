@@ -23,6 +23,14 @@ public class Session {
         return id;
     }
 
+    //여기다가 넣어도 되나
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(expiredAt);
+    }
+    public void updateExpiredAt(){
+        this.expiredAt = LocalDateTime.now().plusDays(1);
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -32,6 +40,6 @@ public class Session {
         this.userId = userId;
     }
     public Session(){
-        this.expiredAt = LocalDateTime.now().plusDays(1);
+        updateExpiredAt();
     }
 }

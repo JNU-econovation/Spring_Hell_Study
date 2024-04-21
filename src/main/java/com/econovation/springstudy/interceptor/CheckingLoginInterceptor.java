@@ -35,6 +35,11 @@ public class CheckingLoginInterceptor implements HandlerInterceptor {
         Session session = sessionService.getSession(sessionId)
                 .orElseThrow(()->new IllegalArgumentException("로그인이 필요해요"));
 
+        if (session.isExpired())
+            throw new IllegalArgumentException("다시 로그인 해주세요");
+
+        session.updateExpiredAt();
+
         request.setAttribute("session", session);
 
         return true;
