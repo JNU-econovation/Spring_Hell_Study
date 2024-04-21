@@ -30,7 +30,7 @@ public abstract class CreateGoodsReq {
         return name;
     }
 
-    public int getRemaining() {
+    public Integer getRemaining() {
         return remaining;
     }
 

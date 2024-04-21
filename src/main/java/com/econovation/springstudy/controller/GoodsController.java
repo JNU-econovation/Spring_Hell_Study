@@ -39,7 +39,7 @@ public class GoodsController {
 
     @GetMapping("/goods")
     public List<GoodsInfoRes> getGoodsNumbers(){
-        return goodsService.getGoodsNumbers();
+        return goodsService.getAllGoodsInfo();
     }
 
     //판매 (남원 시청 -> 고객)
@@ -56,6 +56,12 @@ public class GoodsController {
             throw new IllegalArgumentException("스티커 개수는 100개 단위어야 함");
         goodsService.restockGoods(restockGoodsReq);
         return "잔고: "+ namwonCity.checkBalance();
+    }
+
+    @PostMapping("/restocking/sticker")
+    public String restockAllStickerByLevel(){
+        goodsService.restockAllStickerByLevel();
+        return "재고 추가 완료";
     }
 
 }

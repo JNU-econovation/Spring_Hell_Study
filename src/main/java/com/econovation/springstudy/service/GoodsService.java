@@ -2,9 +2,11 @@ package com.econovation.springstudy.service;
 
 import com.econovation.springstudy.NamwonCity;
 import com.econovation.springstudy.config.enums.GoodsType;
+import com.econovation.springstudy.config.enums.StickerLevel;
 import com.econovation.springstudy.config.enums.UserRole;
 import com.econovation.springstudy.dto.goods.*;
 import com.econovation.springstudy.entity.Goods;
+import com.econovation.springstudy.entity.Sticker;
 import com.econovation.springstudy.entity.User;
 import com.econovation.springstudy.repository.GoodsRepository;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,8 @@ public class GoodsService {
         this.userService = userService;
     }
 
+//-- 퍼사드 메서드?
+
     @Transactional
     public void createGoods(CreateGoodsReq createGoodsReq){
         Goods goods = createGoodsReq.toEntity();
@@ -36,18 +40,7 @@ public class GoodsService {
 
     @Transactional
     public void restockGoods(RestockGoodsReq restockGoodsReq){
-        Goods goods = getGoodsOrThrow(restockGoodsReq.getGoodsId());
-
-        //구매할 개수
-        int numberToRestock = restockGoodsReq.getNumber();
-        //필요한 돈
-        int neededMoney = numberToRestock * 100;
-        //할인 적용
-        neededMoney -= (numberToRestock / 1000) * 25000;
-        //금액 차감
-        namwonCity.deductBalance(neededMoney);
-        //재고 추가
-        goods.addRemaining(numberToRestock);
+        restockGoods(getGoodsOrThrow(restockGoodsReq.getGoodsId()), restockGoodsReq.getNumber());
     }
 
     @Transactional
@@ -113,13 +106,39 @@ public class GoodsService {
 
     }
 
+//---- 헬퍼 메서드
+
+    @Transactional
+    public void restockGoods(Goods goods, int numberToRestock){
+        //필요한 돈
+        int neededMoney = numberToRestock * 100;
+        //할인 적용
+        neededMoney -= (numberToRestock / 1000) * 25000;
+        //금액 차감
+        namwonCity.deductBalance(neededMoney);
+        //재고 추가
+        goods.addRemaining(numberToRestock);
+    }
+
+    @Transactional
+    public void restockStickerByLevel(Sticker sticker){
+        StickerLevel stickerLevel = sticker.getStickerLevel();
+        restockGoods(sticker, stickerLevel.getAvailable());
+    }
+
+    @Transactional
+    public void restockAllStickerByLevel(){
+        List<Goods> stickerList = goodsRepository.findAllByGoodsType(GoodsType.STICKER);
+        stickerList.forEach(goods -> restockStickerByLevel((Sticker) goods));
+    }
+
     @Transactional(readOnly = true)
     public int getTheGoodsNumber(Long goodsId){
         return getGoodsOrThrow(goodsId).getRemaining();
     }
 
     @Transactional
-    public List<GoodsInfoRes> getGoodsNumbers(){
+    public List<GoodsInfoRes> getAllGoodsInfo(){
         //TODO: 굿즈 타입에 따라 다른 타입의 DTO
         return goodsRepository.findAll().stream()
                 .map(goods -> new GoodsInfoRes(goods.getId(),goods.getName(), goods.getRemaining(), goods.getGoodsType()))

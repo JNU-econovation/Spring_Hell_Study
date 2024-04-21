@@ -16,4 +16,8 @@ public enum StickerLevel {
     StickerLevel(int available) {
         this.available = available;
     }
+
+    public int getAvailable() {
+        return available;
+    }
 }
