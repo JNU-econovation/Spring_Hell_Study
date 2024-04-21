@@ -13,11 +13,12 @@ public class MemberMemoryRepository implements MemberRepository {
 
     @Override
     public void save(Member member) {
-        memberHashMap.put(member.getUuid(),member);
+        memberHashMap.put(member.getName(),member);
     }
 
     @Override
-    public Optional<Member> findByUUDID(String uuid) {
-        return Optional.of(memberHashMap.get(uuid));
+    public Optional<Member> findByName(String name) {
+        return Optional.of(memberHashMap.get(name));
     }
+
 }

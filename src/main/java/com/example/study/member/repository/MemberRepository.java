@@ -11,5 +11,5 @@ public interface MemberRepository {
 
     void save(Member member);
 
-    Optional<Member> findByUUDID(String uuid);
+    Optional<Member> findByName(String name);
 }
