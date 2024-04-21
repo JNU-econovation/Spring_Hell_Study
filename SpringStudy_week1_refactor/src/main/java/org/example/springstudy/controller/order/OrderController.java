@@ -17,11 +17,11 @@ public class OrderController {
 
     @PostMapping("/order/cityHallUser")
     public void OrderByCityHallUser(@RequestBody CityHallUserOrderDTO cityHallUserOrderDTO){
-        orderService.CityHallUserOrder(cityHallUserOrderDTO);
+        orderService.cityHallUserOrder(cityHallUserOrderDTO);
     }
 
     @PostMapping("/order/festivalUser")
     public void OrderByCityHallUser(@RequestBody FestivalUserOrderDTO festivalUserOrderDTO){
-        orderService.FestivalUserOrder(festivalUserOrderDTO);
+        orderService.festivalUserOrder(festivalUserOrderDTO);
     }
 }

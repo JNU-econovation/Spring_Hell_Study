@@ -39,7 +39,7 @@ public class OrderService {
     private final FestivalUserDiscountPolicy festivalUserDiscountPolicy;
     // 시청이 인쇄소에 발주요청
     @Transactional
-    public Long CityHallUserOrder(CityHallUserOrderDTO cityHallUserOrderDTO){
+    public Long cityHallUserOrder(CityHallUserOrderDTO cityHallUserOrderDTO){
         CityHallUser cityHallUser = (CityHallUser) userRepository
                 .findById(cityHallUserOrderDTO.getUserId())
                 .orElseThrow(UserNotFoundException::new);
@@ -96,7 +96,7 @@ public class OrderService {
     }
     // 축제 참가자 주문
     @Transactional
-    public Long FestivalUserOrder(FestivalUserOrderDTO festivalUserOrderDTO){
+    public Long festivalUserOrder(FestivalUserOrderDTO festivalUserOrderDTO){
         FestivalUser festivalUser = (FestivalUser)userRepository
                 .findById(festivalUserOrderDTO.getUserId())
                 .orElseThrow(UserNotFoundException::new);
