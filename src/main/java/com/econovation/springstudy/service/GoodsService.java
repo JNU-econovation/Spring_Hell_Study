@@ -43,6 +43,7 @@ public class GoodsService {
         restockGoods(getGoodsOrThrow(restockGoodsReq.getGoodsId()), restockGoodsReq.getNumber());
     }
 
+    //TODO: 한 번 팔 때 한 가지의 종류만 팔 수 있는 것으로 구현해야할 듯...
     @Transactional
     public List<BuyGoodsRes> sellGoods(BuyGoodsReq buyGoodsReq){
         Long userId = buyGoodsReq.getUserId();
@@ -80,7 +81,7 @@ public class GoodsService {
             if (diff < numberToBuy) numberToDivide++;
         }
 
-        int criteria = sortedGoodsList.get(numberToDivide - 1).getRemaining();
+        int criteria = (sortedGoodsList.size() > numberToDivide) ? sortedGoodsList.get(numberToDivide).getRemaining() : 0;
         int totalRemainingToDeduct = numberToBuy;
         List<BuyGoodsRes> buyGoodsResList = new ArrayList<>();
         for (int i = 0; i < numberToDivide - 1; i++) {
