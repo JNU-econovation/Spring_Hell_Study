@@ -23,6 +23,7 @@ public class Publish {
     private User user;
     private Integer quantity;
     private Integer price;
+    // 기본적으로 false, 돈이 임금이 되어 발주 정상적으로 처리되면 true
     private Boolean isConfirmed;
 
     public Publish(User user, Integer quantity, String stickerName, Integer price) {
