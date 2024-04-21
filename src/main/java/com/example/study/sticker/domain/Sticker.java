@@ -35,6 +35,16 @@ public class Sticker {
                 .build();
     }
 
+    public Sticker minusStock(Long count){
+        if(this.stock - count < 0){
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        return Sticker.builder()
+                .stock(this.stock - count)
+                .name(this.name)
+                .build();
+    }
+
 
 
 }
