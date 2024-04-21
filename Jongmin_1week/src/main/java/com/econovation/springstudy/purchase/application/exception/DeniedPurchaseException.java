@@ -5,16 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public class DeniedPurchaseException extends BusinessException {
 
-    private static String code = "2000";
-
-    private final String message;
-
-
-    public DeniedPurchaseException(String message){
-        super(HttpStatus.FORBIDDEN, message);
-        this.message = message;
+    public DeniedPurchaseException(HttpStatus status, String code){
+        super(status, code);
     }
-
-    @Override
-    public String getMessage(){return message;}
 }
