@@ -17,7 +17,7 @@ public class PublishController {
     private final PublishStickerUseCase publishStickerUseCase;
 
 
-    @PostMapping("/sticker")
+    @PostMapping("/publish/sticker")
     public ResponseEntity<PublishStickerResponse> publishSticker(@RequestBody PublishStickerRequest request) {
         PublishStickerResponse response = publishStickerUseCase.execute(request);
         return ResponseEntity.ok(response);

@@ -27,16 +27,13 @@ public class PublishStickerUseCase {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException(StaticMessage.NOT_FOUND_MEMBER));
         List<String> stickerNames =  request.stickers().stream()
                 .map(publishDto -> {
+                    // 남원시청 -> 남원 인쇄소 발주 넣기
                     checkQuantity(publishDto.getQuantity());
                     publishDto.sale(publishDto);
                     Publish publish = new Publish(user,publishDto.getQuantity(),publishDto.getStickerName(),publishDto.getPrice());
                     return publishRepository.save(publish);
                 })
-                .map(publish -> {
-                  Sticker sticker = Sticker.builder().name(publish.getStickerName()).initialStock(publish.getQuantity()).build();
-                  return stickerRepository.save(sticker);
-                })
-                .map(Sticker::getName)
+                .map(Publish::getStickerName)
                 .toList();
         return new PublishStickerResponse(stickerNames);
     }

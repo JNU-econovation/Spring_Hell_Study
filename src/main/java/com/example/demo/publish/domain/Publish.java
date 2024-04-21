@@ -22,14 +22,19 @@ public class Publish {
     @JoinColumn(name = "users_id")
     private User user;
     private Integer quantity;
-
     private Integer price;
+    private Boolean isConfirmed;
 
     public Publish(User user, Integer quantity, String stickerName, Integer price) {
         this.user = user;
         this.quantity = quantity;
         this.stickerName = stickerName;
         this.price = price;
+        this.isConfirmed = false;
+    }
+
+    public void updateIsConfirmed() {
+        this.isConfirmed = true;
     }
 
 
