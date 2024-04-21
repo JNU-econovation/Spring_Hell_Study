@@ -1,23 +1,36 @@
 package com.econovation.springstudy.sticker.entity;
 
-import com.econovation.springstudy.common.entity.Entity;
 
-public class StickerEntity implements Entity {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Entity
+@NoArgsConstructor
+@Getter
+public class StickerEntity {
+
+    @Id
+    @Column(name = "id")
+    @GeneratedValue
     private Long id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "all_remain")
     private Long remain;
+
+    @Column(name = "official_purchasable")
+    private Long officialPurchasable;
+
+    @Column(name = "non-official_purchasable")
+    private Long nonOfficialPurchasable;
+
+    @Column(name = "price")
     private Long price;
 
-    public StickerEntity(Long id, String name, Long remain, Long price){
-        this.id = id;
-        this.name = name;
-        this.remain = remain;
-        this.price = price;
-    }
-
-    public Long getId() { return id; }
-    public String getName() { return name; }
-    public Long getRemain() { return remain; }
-    public Long getPrice() { return price; }
 }
