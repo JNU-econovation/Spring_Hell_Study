@@ -66,7 +66,27 @@ public class StickerService{
             throw new IllegalArgumentException("스티커는 인당 8개를 구매할 수 있습니다.");
         }
 
+        // 공직자에게 제공할 수 있는 모든 판매 갯수는 전체 갯수의 30%로 제한
+        List<String> stickerNames = cityService.findStickers(cityName);
+        List<Sticker> stickers = stickerRepository.findAll(stickerNames);
+        long allStickerStocks = stickers.stream().mapToLong(s -> s.getStock()).sum();
+        long maxOfficialBuyCount = (long) (allStickerStocks * 0.3);
 
+        if(MemberType.isPublicOfficial(member.getType())){
+            Long officialBuyCount = memoryBuyCountRepository.find();
+            if(officialBuyCount > maxOfficialBuyCount){
+                throw new IllegalStateException("공직자에게 제공할 수 있는 모든 판매 갯수는 전체 갯수의 30%까지입니다.");
+            }
+            // 공직자의 판매 갯수 증가
+            memoryBuyCountRepository.increment(sellStickerRequest.count());
+
+            // 공직자일 시 10% 할인
+        }
+
+
+        // 공직자 아니면, 그냥 구매
+
+        // 스티커 랜덤 판매
 
 
 
