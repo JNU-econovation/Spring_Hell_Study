@@ -1,12 +1,11 @@
 package com.econovation.springstudy.purchase.application.usecase;
 
 import com.econovation.springstudy.purchase.application.dto.request.PurchaseStickerRequest;
-import com.econovation.springstudy.purchase.application.dto.response.QueryStrickerResponse;
+import com.econovation.springstudy.purchase.application.dto.response.QueryStickerResponse;
+import com.econovation.springstudy.purchase.application.dto.response.QueryStickersResponse;
 
 public interface PurchaseStickerUsecase {
 
-    public QueryStrickerResponse purchase(Long sickerId, PurchaseStickerRequest request);
-
-    public QueryStrickerResponse purchase(PurchaseStickerRequest request);
+    public QueryStickersResponse purchase(PurchaseStickerRequest request);
 
 }
