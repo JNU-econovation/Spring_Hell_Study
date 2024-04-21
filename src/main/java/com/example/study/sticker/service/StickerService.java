@@ -14,9 +14,7 @@ import com.example.study.sticker.repository.StickerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,18 +66,10 @@ public class StickerService{
             throw new IllegalArgumentException("스티커는 인당 8개를 구매할 수 있습니다.");
         }
 
-
+        // 공직자에게 제공할 수 있는 모든 판매 갯수는 전체 갯수의 30%로 제한
         List<String> stickerNames = cityService.findStickers(cityName);
         List<Sticker> stickers = stickerRepository.findAll(stickerNames);
         long allStickerStocks = stickers.stream().mapToLong(s -> s.getStock()).sum();
-
-        // 스티커의 총 재고가 사용자가 사려는 개수보다 미만인 경우
-        if(allStickerStocks < sellStickerRequest.count()){
-            throw new IllegalStateException("스티커의 재고가 부족합니다.");
-        }
-
-
-        // 공직자에게 제공할 수 있는 모든 판매 갯수는 전체 갯수의 30%로 제한
         long maxOfficialBuyCount = (long) (allStickerStocks * 0.3);
 
         if(MemberType.isPublicOfficial(member.getType())){
@@ -90,50 +80,20 @@ public class StickerService{
             // 공직자의 판매 갯수 증가
             memoryBuyCountRepository.increment(sellStickerRequest.count());
 
-            // 공직자일 시 10% 할인 판매
+            // 공직자일 시 10% 할인
         }
 
 
-        // 일반일 시 그냥 판매
+        // 공직자 아니면, 그냥 구매
 
-        // 스티커 랜덤 선택후 재고 반영
-        Map<String, Long> stickerAllocation = randomAllocate(stickerNames, stickers, buyCount);
-        for (Sticker sticker : stickers) {
-            long toBuy = stickerAllocation.get(sticker.getName());
-            Sticker minusStock = sticker.minusStock(sticker.getStock() - toBuy);
-            stickerRepository.save(minusStock); // 재고 업데이트
-        }
+        // 스티커 랜덤 판매
 
 
-    }
 
-    private Map<String, Long> randomAllocate(List<String> stickerNames, List<Sticker> stickers, long buyCount) {
 
-        Map<String, Long> allocation = new HashMap<>();
-        long totalStickers = stickers.size();
 
-        // 초기 분배 갯수 설정
-        long baseCount = buyCount / totalStickers;
-        long remainingCount = buyCount % totalStickers;
 
-        // 기본 할당 수량 설정
-        for (Sticker sticker : stickers) {
-            long count = Math.min(sticker.getStock(), baseCount); // 재고를 초과하지 않는 선에서 기본 수량 할당
-            allocation.put(sticker.getName(), count);
-            remainingCount += baseCount - count; // 할당하지 못한 수량 재계산
-        }
 
-        // 남은 수량 할당
-        while (remainingCount > 0) {
-            for (Sticker sticker : stickers) {
-                if (remainingCount == 0) break;
-                if (sticker.getStock() > allocation.get(sticker.getName())) { // 재고가 할당량보다 많은 경우
-                    allocation.put(sticker.getName(), allocation.get(sticker.getName()) + 1);
-                    remainingCount--;
-                }
-            }
-        }
-        return allocation;
     }
 
 
