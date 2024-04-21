@@ -28,6 +28,7 @@ public class CreatePurchaseUseCase {
     @Transactional
     @LimitQuantity(userRole = UserRole.GOVERNMENT)
     public CreatePurchaseResponse execute(CreatePurchaseRequest request) {
+        checkQuantity(request.quantity());
         int totalPrice = 0;
         User user = userRepository.findById(request.userId())
                 .orElseThrow(() -> new IllegalArgumentException(StaticMessage.NOT_FOUND_MEMBER));
