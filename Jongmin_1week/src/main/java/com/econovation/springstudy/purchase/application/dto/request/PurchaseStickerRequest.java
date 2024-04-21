@@ -1,12 +1,15 @@
 package com.econovation.springstudy.purchase.application.dto.request;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public class PurchaseStickerRequest {
 
-    private Long count;
+    private final Long count;
 
-    private String consumerType;
-
-    public Long getCount(){ return count; }
-    public String getConsumerType(){ return consumerType; }
+    private final String consumerType;
 
 }
