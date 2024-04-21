@@ -2,39 +2,114 @@ package com.econovation.springstudy.purchase.application.service;
 
 import com.econovation.springstudy.consumer.model.ConsumerTypes;
 import com.econovation.springstudy.purchase.application.dto.request.PurchaseStickerRequest;
-import com.econovation.springstudy.purchase.application.dto.response.QueryStrickerResponse;
+import com.econovation.springstudy.purchase.application.dto.response.QueryStickersResponse;
 import com.econovation.springstudy.purchase.application.exception.DeniedPurchaseException;
+import com.econovation.springstudy.purchase.application.exception.ExceedPurchaseCountException;
+import com.econovation.springstudy.purchase.application.exception.InsufficientRemainException;
 import com.econovation.springstudy.purchase.application.usecase.PurchaseStickerUsecase;
+import com.econovation.springstudy.sticker.application.model.StickerModel;
+import com.econovation.springstudy.sticker.application.model.StickerTable;
+import com.econovation.springstudy.sticker.application.model.converter.StickerModelConverter;
+import com.econovation.springstudy.sticker.application.support.PurchasableCntGetter;
+import com.econovation.springstudy.sticker.application.support.PurchasableCntGetters;
+import com.econovation.springstudy.sticker.repository.StickerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class PurchaseService implements PurchaseStickerUsecase {
 
-    private final OfficialPurchaseService officialPurchaseService;
+    private final StickerRepository stickerRepository;
+    private final StickerModelConverter stickerModelConverter;
+    private final StickerTable stickerTable;
 
-//    public QueryStrickerResponse purchase(Long stickerId, PurchaseStickerRequest request){
-//        /** 구매 로직
-//         * 1. 소비자 타입이 무엇인가?
-//         *   a. 소비자 타입이 공직자일 경우, 누적 구매 개수가 전체 스티커 개수 의 30%가 초과하는가?
-//         * 2. 구매 개수가 9개 이상인가?
-//         * 3. 위 과정을 만족한다면, 랜덤한 스티커를 제공*/
-//
-//
-//    }
+    /**
+     * PurchasableGetter
+     *  공직자와 비공직자 전체가 구매할 수 있는 스티커의 총 수량이 다르므로, 현재 구매할 수 있는 스티커의 수량을
+     *  공직자와 비공직자에 맞게 가져오는 람다식
+     */
+    private final PurchasableCntGetter officialPurchasableGetter = PurchasableCntGetters.OFFICIAL_PURCHASABLE.getGetter();
+    private final PurchasableCntGetter nonOfficialPurchasableGetter = PurchasableCntGetters.NON_OPFFICIAL_PURCHASABLE.getGetter();
+    private final PurchasableCntGetter allPurchasableGetter = PurchasableCntGetters.ALL_PURCHASABLE.getGetter();
 
-    public QueryStrickerResponse purchase(PurchaseStickerRequest request){
-        checkCount(request);
+    public QueryStickersResponse purchase(PurchaseStickerRequest request){
+        /**
+         * 1. 구매 개수 확인
+         * 2. 일단 구매 로직 진행
+             * a. 공직자인지 확인
+             * b. 공직자라면, 공직자용 스티커가 남았는지 확인
+             * c. 남아 있다면, 10% 할인
+         * 3. 공직자가 아니라면, 일반용 스티커가 남았는지 확인
+         */
+        List<StickerModel> stickers = isOfficial(request) ? getRandomStickers(request, officialPurchasableGetter) : getRandomStickers(request, nonOfficialPurchasableGetter);
 
+        return QueryStickersResponse.of(stickers, request.getConsumerType());
     }
 
-    private void checkCount(PurchaseStickerRequest request){
-        if(request.getCount() > 9) throw new DeniedPurchaseException("1인당 최대 구매 수량은 8개 입니다.");
+    private List<StickerModel> getRandomStickers(PurchaseStickerRequest request, PurchasableCntGetter purchasableCntGetter){
+
+        isOrderUnderNine(request);
+        isSufficientRemain(request, purchasableCntGetter);
+
+        int stickerLength = request.getCount().intValue();
+        List<StickerModel> stickers = new ArrayList<>(stickerLength);
+
+        for(int i=0; i<stickerLength; i++){
+            stickers.set(i, getRandomSticker(purchasableCntGetter));
+        }
+
+        return stickers;
     }
 
+    private StickerModel getRandomSticker(PurchasableCntGetter purchasableCntGetter){
+        /**
+         * 스티커가 고르게 선택되기 위해서는, 많이 남은 스티커가 더 잘 뽑혀야 한다.
+         */
+        Random random = new Random();
 
+        List<StickerModel> models = getStickersAll();
 
+        Long rndStickerNumber= random.nextLong(1,getStickerCntAll(purchasableCntGetter)+1);
 
+        long sum = 0;
 
+        List<Long> list = models.stream()
+                .sorted((m1, m2) -> ((int)(m1.getRemain()-m2.getRemain())))
+                .map(model -> model.getRemain() + sum)
+                .filter(remain -> remain >= rndStickerNumber)
+                .toList();
+
+        return models.get(list.size());
+    }
+
+    private void isOrderUnderNine(PurchaseStickerRequest request){
+        if(request.getCount() > 9) throw new ExceedPurchaseCountException();
+    }
+
+    private boolean isOfficial(PurchaseStickerRequest request){
+        return request.getConsumerType().equals(ConsumerTypes.OFFICIAL.getConsumerType());
+    }
+
+    private void isSufficientRemain(PurchaseStickerRequest request, PurchasableCntGetter getter){
+        if(request.getCount() > getStickerCntAll(getter)) throw new InsufficientRemainException();
+    }
+
+    private Long getStickerCntAll(PurchasableCntGetter purchasableCntGetter){
+        return getStickersAll().stream()
+                .map(model -> purchasableCntGetter.getPurchasable(model))
+                .collect(Collectors.reducing(0L, (i,m) -> i+m));
+    }
+
+    private List<StickerModel> getStickersAll(){
+        return stickerRepository.findAll().stream()
+                .map(e -> stickerModelConverter.from(e))
+                .collect(Collectors.toList());
+    }
 }
