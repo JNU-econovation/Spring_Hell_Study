@@ -1,16 +1,19 @@
 package com.econovation.springstudy.goods;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class NamwonGoodsRepository implements GoodsRepository{
     private static Map<Long, BaseGoods> store = new HashMap<>();
+    private static Set<Long> usedIds = new HashSet<>();
 
     @Override
     public void save(BaseGoods goods) {
+        Long id = goods.getId();
+        if(usedIds.contains(id)){
+            throw new IllegalArgumentException("이미 사용된 ID입니다: " + id);
+        }
         store.put(goods.getId(),goods);
+        usedIds.add(id);
     }
 
     @Override

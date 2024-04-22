@@ -41,18 +41,16 @@ public class OrderServiceImpl implements OrderService {
             System.out.println("공직자 할인 " + DISCOUNT_RATE + "%가 적용되었습니다.");
         }
 
-        for(int i=0; i < goodsList.size(); i++){
+        for(BaseGoods goods : goodsList){
             maxLimit += quantity;
             if(checkSaleLimit(MAX_LIMIT_PER_PERSON,maxLimit)){
                 System.out.println("1인당 구매 갯수를 넘어섰습니다.");
                 break;
             }
-            BaseGoods goods = goodsList.get(i);
             if(goods.getStock() >= quantity){
                 sellGoods(goods,quantity);
             }
         }
-
     }
 
     private void sellGoods(BaseGoods goods, int quantity){
@@ -66,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         currentStock -= quantity;
         goods.setStock(currentStock);
 
-        System.out.println(goods.getName() + "의 " + quantity + "개를 판매하였습니다. 남은 재고 : " + goods.getStock());
+        System.out.println(goods.getName() +goods.getGoodsRank() + " " + quantity + "개를 판매하였습니다. 남은 재고 : " + goods.getStock());
     }
 
     @Override

@@ -5,13 +5,16 @@ public class NamwonGoods implements BaseGoods{
     private String name; // 상품의 이름
     private int price; // 상품의 가격 -> 발주시 가격
     private int stock; // 상품의 재고
+    private GoodsRank goodsRank; // 등급
+
 
     // 생성자를 통해 스티커 생성
-    public NamwonGoods(Long id,String name, int price, int stock){
+    public NamwonGoods(Long id,String name, int price,int stock,GoodsRank goodsRank){
         this.id = id;
         this.name = name;
         this.price = price;
-        this.stock = stock;
+        this.stock = goodsRank.getQuantity();
+        this.goodsRank = goodsRank;
     }
 
     @Override
@@ -30,6 +33,11 @@ public class NamwonGoods implements BaseGoods{
     @Override
     public int getStock() {
         return stock;
+    }
+
+    @Override
+    public GoodsRank getGoodsRank() {
+        return goodsRank;
     }
 
     // 추가 재고 필요시 호출할 메서드

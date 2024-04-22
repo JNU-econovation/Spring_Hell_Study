@@ -22,9 +22,18 @@ public class GoodsController {
     // goods 생성 api
     @PostMapping("/goods")
     public ResponseEntity<String> createGoods(@RequestBody NamwonGoods namwonGoods){
-        BaseGoods goods = new NamwonGoods(namwonGoods.getId(),namwonGoods.getName(), namwonGoods.getPrice(),namwonGoods.getStock());
-        goodsService.createGoods(goods);
-        return new ResponseEntity<>("Goods 생성 성공", HttpStatus.CREATED);
+        StringBuilder responseMessage = new StringBuilder("생성된 상품들\n");
+        Long id = namwonGoods.getId();
+        for(GoodsRank rank : GoodsRank.values()){
+
+            BaseGoods goods = new NamwonGoods(id++,namwonGoods.getName(),
+                    namwonGoods.getPrice(), namwonGoods.getStock(),rank);
+            goodsService.createGoods(goods);
+
+            responseMessage.append("- ").append(goods.getName()).append(" ").append(rank.name()).append("\n");
+        }
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseMessage.toString());
     }
 
     // 각 상품의 재고 확인
