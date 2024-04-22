@@ -32,7 +32,15 @@ public class OrderServiceImpl implements OrderService {
 
         // 전체 재고 확인
         updateTotalStock(goodsList);
+
+        // 상품 목록 랜덤으로 섞기
+        Collections.shuffle(goodsList);
         int maxLimit = 0;
+
+        if(discount(quantity)){
+            System.out.println("공직자 할인 " + DISCOUNT_RATE + "%가 적용되었습니다.");
+        }
+
         for(int i=0; i < goodsList.size(); i++){
             maxLimit += quantity;
             if(checkSaleLimit(MAX_LIMIT_PER_PERSON,maxLimit)){
@@ -52,10 +60,6 @@ public class OrderServiceImpl implements OrderService {
         if(currentStock < quantity){
             System.out.println("현재 남아있는 갯수가 주문 수량보다 적습니다.");
             return;
-        }
-
-        if(discount(quantity)){
-            System.out.println("공직자 할인 " + DISCOUNT_RATE + "%가 적용되었습니다.");
         }
 
         // 재고 업데이트
@@ -93,18 +97,15 @@ public class OrderServiceImpl implements OrderService {
         return totalStock;
     }
 
+    // 특정 상품이 아닌 전체 상품의 발주
     @Override
-    public void addGoodsStock() {
+    public void addGoodsStock(Long id,int quantity) {
         List<BaseGoods> goodsList = goodsRepository.findAll();
-        for (BaseGoods baseGoods : goodsList) {
-            // 상품의 재고가 100개 아래로 내려가면 100개씩 재발주
-            if(baseGoods.getStock()<100){
-                int currentStock = baseGoods.getStock();
-                System.out.println(baseGoods.getName() + "을 추가로 100개 발주합니다.");
-                currentStock += 100;
-                baseGoods.setStock(currentStock);
-                System.out.println("발주가 성공적으로 마무리 되었습니다.");
-            }
-        }
+        BaseGoods goods = goodsList.get(id.intValue());
+        int currentStock = goods.getStock();
+        System.out.println(goods.getName() + "을/를 " + quantity + "개 발주합니다.");
+        currentStock += quantity;
+        goods.setStock(currentStock);
+        System.out.println("발주가 성공적으로 마무리 되었습니다. 현재 " + goods.getName() + "의 재고 : " + goods.getStock());
     }
 }

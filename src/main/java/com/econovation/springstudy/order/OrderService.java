@@ -16,5 +16,5 @@ public interface OrderService {
     
     int getTotalStock(); // 전체 상품 수량 가져오기
 
-    void addGoodsStock();
+    void addGoodsStock(Long id,int quantity);
 }
