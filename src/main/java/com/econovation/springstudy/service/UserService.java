@@ -24,14 +24,4 @@ public class UserService {
     public User getUserOrThrow(Long id){
         return userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("그런 유저 없어요"));
     }
-    @Transactional(readOnly = true)
-    public User getUserOrThrow(String userId){
-        return userRepository.findByUserId(userId).orElseThrow(()->new IllegalArgumentException("그런 유저 없어요"));
-    }
-    @Transactional
-    public User createUser(String userId, String password){
-        User user = new User(userId, password, UserRole.NONE);
-        return userRepository.save(user);
-    }
-
 }
