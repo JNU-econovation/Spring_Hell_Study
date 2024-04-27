@@ -12,9 +12,7 @@ import com.econovation.springstudy.repository.GoodsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.IntStream;
 
 
@@ -107,9 +105,14 @@ public class GoodsService {
 
     }
 
+    @Transactional
+    public void restockAllStickerByLevel(){
+        List<Goods> stickerList = goodsRepository.findAllByGoodsType(GoodsType.STICKER);
+        stickerList.forEach(goods -> restockStickerByLevel((Sticker) goods));
+    }
+
 //---- 헬퍼 메서드
 
-    @Transactional
     public void restockGoods(Goods goods, int numberToRestock){
         //필요한 돈
         int neededMoney = numberToRestock * 100;
@@ -121,24 +124,15 @@ public class GoodsService {
         goods.addRemaining(numberToRestock);
     }
 
-    @Transactional
     public void restockStickerByLevel(Sticker sticker){
         StickerLevel stickerLevel = sticker.getStickerLevel();
         restockGoods(sticker, stickerLevel.getAvailable());
     }
 
-    @Transactional
-    public void restockAllStickerByLevel(){
-        List<Goods> stickerList = goodsRepository.findAllByGoodsType(GoodsType.STICKER);
-        stickerList.forEach(goods -> restockStickerByLevel((Sticker) goods));
-    }
-
-    @Transactional(readOnly = true)
     public int getTheGoodsNumber(Long goodsId){
         return getGoodsOrThrow(goodsId).getRemaining();
     }
 
-    @Transactional
     public List<GoodsInfoRes> getAllGoodsInfo(){
         //TODO: 굿즈 타입에 따라 다른 타입의 DTO
         return goodsRepository.findAll().stream()
@@ -146,7 +140,6 @@ public class GoodsService {
                 .toList();
     }
 
-    @Transactional(readOnly = true)
     public Goods getGoodsOrThrow(Long goodsId){
         return goodsRepository.findById(goodsId).orElseThrow(()->new IllegalArgumentException("그런 굿즈 없어요."));
     }
