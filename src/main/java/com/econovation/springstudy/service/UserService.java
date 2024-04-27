@@ -1,10 +1,8 @@
 package com.econovation.springstudy.service;
 
-import com.econovation.springstudy.config.enums.UserRole;
 import com.econovation.springstudy.entity.User;
 import com.econovation.springstudy.repository.UserRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,11 +14,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    @Transactional(readOnly = true)
+//헬퍼
+
     public Optional<User> getUser(String userId){
         return userRepository.findByUserId(userId);
     }
-    @Transactional(readOnly = true)
+
     public User getUserOrThrow(Long id){
         return userRepository.findById(id).orElseThrow(()->new IllegalArgumentException("그런 유저 없어요"));
     }
