@@ -8,8 +8,6 @@ import com.econovation.hellstudy.database.Database;
 import com.econovation.hellstudy.database.GuestInfo;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,6 +27,7 @@ public class ChatService {
 
         //차단되었는지 확인
 
+
         //메세지 보내기
         try {
             database.chat(chatRoomId, message);
@@ -42,7 +41,7 @@ public class ChatService {
         String userId = chatListReq.userId();
         String chatRoomId = chatListReq.chatRoomId();
 
-        GuestInfo guestInfo = database.getGuestInfo(chatRoomId, userId);
+        GuestInfo guestInfo = database.findGuestInfo(chatRoomId, userId);
 
         List<ChatMessage> messageList = database.getChatMessages(chatRoomId);
 

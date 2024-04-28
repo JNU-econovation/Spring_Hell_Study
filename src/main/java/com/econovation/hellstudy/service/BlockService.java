@@ -13,6 +13,6 @@ public class BlockService {
     }
 
     public void blockUser(BlockUserReq blockUserReq){
-        database.addBlock(blockUserReq.blockingUserId(), blockUserReq.blockedUserId());
+        database.createBlock(blockUserReq.blockingUserId(), blockUserReq.blockedUserId());
     }
 }

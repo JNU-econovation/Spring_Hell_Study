@@ -16,8 +16,8 @@ public class Database {
     // key: chatRoomId, value: userIds
     private Map<String, List<String>> guests = new HashMap<>();
 
-    // k: senderId, v: receiverIds
-    private Map<String, List<String>> invites = new HashMap<>();
+    // k: receiverId, v: Invites
+    private Map<String, List<Invite>> invites = new HashMap<>();
 
     // k: chatRoomId, v: guestInfos
     private Map<String, List<GuestInfo>> guestInfosMap = new HashMap<>();
@@ -28,23 +28,34 @@ public class Database {
     public boolean isChatRoomExisting(String chatRoomId){
         return db.get(chatRoomId) != null;
     }
-    public void addGuest(String chatRoomId, String userId){
+    public void createBlock(String blockingUserId, String blockedUserId){
+        blockMap.put(blockingUserId, blockedUserId);
+    }
+    public void createInvite(String chatRoomId, Invite invite){
+        if (!isChatRoomExisting(chatRoomId)) throw new IllegalArgumentException();
+        invites.get(chatRoomId).add(invite);
+    }
+    public void deleteInvite(String chatRoomId, Invite invite){
+        if (!isChatRoomExisting(chatRoomId)) throw new IllegalArgumentException();
+        invites.get(chatRoomId).remove(invite);
+    }
+    public void createGuest(String chatRoomId, String userId){
         guests.get(chatRoomId).add(userId);
     }
-    public void addGuestInfo(String chatRoomId, GuestInfo guestInfo){
+    public void createGuestInfo(String chatRoomId, GuestInfo guestInfo){
         List<GuestInfo> guestInfos = guestInfosMap.get(chatRoomId);
         guestInfos.add(guestInfo);
     }
-    public void addBlock(String blockingUserId, String blockedUserId){
-        blockMap.put(blockingUserId, blockedUserId);
-    }
 
-    public GuestInfo getGuestInfo(String chatRoomId, String userId){
+    public GuestInfo findGuestInfo(String chatRoomId, String userId){
         return guestInfosMap.get(chatRoomId).stream()
                 .filter(guestInfo->guestInfo.getUserId().equals(userId))
                 .findAny()
                 .orElseThrow(IllegalAccessError::new);
     }
+
+
+
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
