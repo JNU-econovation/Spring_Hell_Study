@@ -4,6 +4,7 @@ import static java.lang.Math.random;
 
 import org.springframework.stereotype.Component;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 이 클래스는 변경하지 않습니다.
@@ -15,6 +16,8 @@ public class Database {
     private Map<String, List<ChatMessage>> db =  new HashMap<>();
     // key: chatRoomId, value: userIds
     private Map<String, List<String>> guests = new HashMap<>();
+    // key : userId, value: user
+    private Map<Long, User> users = new HashMap<>();
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
@@ -38,5 +41,19 @@ public class Database {
     }
     public List<ChatMessage> getChatMessages(String chatRoomId) {
         return db.get(chatRoomId);
+    }
+
+    public List<String> getMyChatRoomIds(String userId){
+        List<String> keys = Arrays.asList(guests.keySet().toArray()).stream()
+                .map(key -> key.toString())
+                .collect(Collectors.toList());
+
+        return keys.stream()
+                .filter(key -> guests.get(key).contains(userId))
+                .collect(Collectors.toList());
+    }
+
+    public void createUser(Long userId, User user) throws InterruptedException{
+        users.put(userId, user);
     }
 }
