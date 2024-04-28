@@ -2,6 +2,7 @@ package com.econovation.hellstudy.database;
 
 import static java.lang.Math.random;
 
+import com.econovation.hellstudy.domains.user.domain.Block;
 import org.springframework.stereotype.Component;
 import java.util.*;
 
@@ -15,8 +16,8 @@ public class Database {
     private Map<String, List<ChatMessage>> db =  new HashMap<>();
     // key: chatRoomId, value: userIds
     private Map<String, List<String>> guests = new HashMap<>();
-    // key : blockId, value : userIds
-    private Map<String, List<String>> blocks = new HashMap<>();
+    // key : blockId, value : Block
+    private Map<String, Block> blocks = new HashMap<>();
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
@@ -42,10 +43,8 @@ public class Database {
         return db.get(chatRoomId);
     }
 
-    public void createBlock(String blockId, String blockeeId) {
-        List<String> userIds = new ArrayList<>();
-        // 어떤 유저를 차단하다.
-        userIds.add(blockeeId);
-        blocks.put(blockId, userIds);
+    public void createBlock(String blockId, List<String> blockeeIds, String blockerId) {
+        // 어떤 유저(들)를 차단하다.
+        blocks.put(blockId, new Block(blockerId, blockeeIds));
     }
 }
