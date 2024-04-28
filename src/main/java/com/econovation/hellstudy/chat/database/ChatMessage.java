@@ -1,4 +1,4 @@
-package com.econovation.hellstudy.database;
+package com.econovation.hellstudy.chat.database;
 
 
 /**

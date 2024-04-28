@@ -1,7 +1,8 @@
-package com.econovation.hellstudy.database;
+package com.econovation.hellstudy.chat.database;
 
 import static java.lang.Math.random;
 
+import com.econovation.hellstudy.chat.domain.ChatRoom;
 import org.springframework.stereotype.Component;
 import java.util.*;
 
@@ -15,6 +16,8 @@ public class Database {
     private Map<String, List<ChatMessage>> db =  new HashMap<>();
     // key: chatRoomId, value: userIds
     private Map<String, List<String>> guests = new HashMap<>();
+    // key: chatRoomId, value: chatRoom
+    private Map<String, ChatRoom> chatRoomRepository = new HashMap<>();
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
@@ -22,6 +25,7 @@ public class Database {
         chatMessages.add(message);
         db.put(chatRoomId, chatMessages);
     }
+
     public void createChatRoom(String hostId, String chatRoomId) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
         db.put(chatRoomId,new ArrayList<>());
@@ -38,5 +42,9 @@ public class Database {
     }
     public List<ChatMessage> getChatMessages(String chatRoomId) {
         return db.get(chatRoomId);
+    }
+
+    public ChatRoom getChatRoom(String chatRoomId){
+        return chatRoomRepository.get(chatRoomId);
     }
 }
