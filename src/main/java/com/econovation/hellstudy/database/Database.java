@@ -22,6 +22,9 @@ public class Database {
     // k: chatRoomId, v: guestInfos
     private Map<String, List<GuestInfo>> guestInfosMap = new HashMap<>();
 
+    // k: blockingUserId, v: blockedUserId
+    private Map<String, String> blockMap = new HashMap<>();
+
     public boolean isChatRoomExisting(String chatRoomId){
         return db.get(chatRoomId) != null;
     }
@@ -31,6 +34,9 @@ public class Database {
     public void addGuestInfo(String chatRoomId, GuestInfo guestInfo){
         List<GuestInfo> guestInfos = guestInfosMap.get(chatRoomId);
         guestInfos.add(guestInfo);
+    }
+    public void addBlock(String blockingUserId, String blockedUserId){
+        blockMap.put(blockingUserId, blockedUserId);
     }
 
     public GuestInfo getGuestInfo(String chatRoomId, String userId){
