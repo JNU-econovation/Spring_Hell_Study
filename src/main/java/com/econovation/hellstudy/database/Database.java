@@ -2,6 +2,7 @@ package com.econovation.hellstudy.database;
 
 import static java.lang.Math.random;
 
+import com.econovation.hellstudy.user.User;
 import org.springframework.stereotype.Component;
 import java.util.*;
 
@@ -15,6 +16,9 @@ public class Database {
     private Map<String, List<ChatMessage>> db =  new HashMap<>();
     // key: chatRoomId, value: userIds
     private Map<String, List<String>> guests = new HashMap<>();
+
+    // key: userId, value : User
+    private Map<String, User> users = new HashMap<>();
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
@@ -31,6 +35,12 @@ public class Database {
         userIds.add(hostId);
         guests.put(chatRoomId, userIds);
     }
+
+    public String getNextChatRoomId(){
+        int size = db.size();
+        return String.valueOf(size + 1);
+    }
+
     public void invite(String chatRoomId, String userId) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
         List<ChatMessage> chatMessages = db.get(chatRoomId);
@@ -38,5 +48,25 @@ public class Database {
     }
     public List<ChatMessage> getChatMessages(String chatRoomId) {
         return db.get(chatRoomId);
+    }
+
+    public List<String> getChatUsers(String chatRoomId){
+        return guests.get(chatRoomId);
+    }
+
+    public List<String> getMyChatRoomIds(String hostId, List<String> blackListUserId){
+        return guests.entrySet().stream()
+                .filter(entry -> entry.getValue().contains(hostId) && !entry.getValue().contains(blackListUserId))
+                .map(Map.Entry::getKey)
+                .toList();
+    }
+
+    public ChatMessage getFirstMessage(String chatRoomId){
+        return db.get(chatRoomId).get(0);
+    }
+
+
+    public User getUser(String userId){
+        return users.get(userId);
     }
 }
