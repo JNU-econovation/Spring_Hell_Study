@@ -6,3 +6,4 @@ package com.econovation.hellstudy.database;
  */
 public record ChatMessage(String fromUserId, String message, long timestamp) {
 }
+

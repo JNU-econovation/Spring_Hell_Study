@@ -1,5 +1,6 @@
 package com.econovation.hellstudy.chatRoom.controller;
 
+import com.econovation.hellstudy.chatRoom.domain.ChatRoom;
 import com.econovation.hellstudy.chatRoom.dto.FindRoomsRequest;
 import com.econovation.hellstudy.chatRoom.dto.FindRoomsResponse;
 import com.econovation.hellstudy.chatRoom.service.FindRoomService;
@@ -24,8 +25,8 @@ public class ReadChatRoomController {
      */
 
     @GetMapping("/chatRoom")
-    public ResponseEntity<List<FindRoomsResponse>> findAll(FindRoomsRequest findAllRoomsRequest){
-        List<FindRoomsResponse> findRoomsResponses = findRoomService.execute(findAllRoomsRequest);
+    public ResponseEntity<List<ChatRoom>> findAll(FindRoomsRequest findAllRoomsRequest){
+        List<ChatRoom> findRoomsResponses = findRoomService.execute(findAllRoomsRequest);
         return new ResponseEntity<>(findRoomsResponses,HttpStatus.OK);
     }
 
