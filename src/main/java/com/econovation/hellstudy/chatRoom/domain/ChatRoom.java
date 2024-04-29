@@ -28,6 +28,7 @@ public class ChatRoom implements Comparable<ChatRoom>{
                         Message.builder()
                         .fromUserId(fromUserId)
                         .content(content)
+                        .isRead(false)
                         .time(new Time(cratedAt))
                         .build()
                 ).build();
