@@ -1,5 +1,6 @@
 package com.econovation.hellstudy.common.message.handler;
 
+import com.econovation.hellstudy.common.message.ChatMessage2;
 import com.econovation.hellstudy.common.message.Message;
 import com.econovation.hellstudy.database.Database;
 import com.econovation.hellstudy.domains.chat.domain.Chat;
@@ -15,7 +16,7 @@ public class ChatMessageHandler implements MessageHandler{
     @Override
     public void handle(Message message) {
         log.info("메시지 핸들링 시작");
-        if(message instanceof Chat chat)
+        if(message instanceof ChatMessage2 chat)
             database.chatNoSleep(chat.getChatRoomId(), chat.getChatMessage());
         else
             log.info("Chat 타입이 아닙니다.");

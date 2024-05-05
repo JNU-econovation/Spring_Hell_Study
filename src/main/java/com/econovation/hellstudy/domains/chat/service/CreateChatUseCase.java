@@ -1,6 +1,7 @@
 package com.econovation.hellstudy.domains.chat.service;
 
 import com.econovation.hellstudy.common.helper.Validation;
+import com.econovation.hellstudy.common.message.ChatMessage2;
 import com.econovation.hellstudy.common.message.Message;
 import com.econovation.hellstudy.common.message.MessageQueue;
 import com.econovation.hellstudy.database.ChatMessage;
@@ -35,7 +36,7 @@ public class CreateChatUseCase {
      * @param chatRoomId
      */
    private void addMessageToQueue(ChatMessage chatMessage, String chatRoomId) {
-       Message message = new Chat(chatMessage, chatRoomId);
+       Message message = new ChatMessage2(chatMessage, chatRoomId);
        messageQueue.push(message);
    }
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class Chat extends Message {
+public class Chat {
     private Long id;
     // 쪽지 읽었는지 유무
     private Boolean isRead;
