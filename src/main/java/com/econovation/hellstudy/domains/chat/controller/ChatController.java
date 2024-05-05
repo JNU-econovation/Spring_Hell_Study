@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatController {
 
     @PostMapping("/chat")
-    public void createChat(@RequestBody CreateChatRequest) {
+    public void createChat(@RequestBody CreateChatRequest request) {
 
     }
 }

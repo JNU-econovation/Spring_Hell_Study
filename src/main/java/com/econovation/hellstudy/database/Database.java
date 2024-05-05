@@ -11,6 +11,7 @@ import java.util.*;
  * 이 클래스는 변경하지 않습니다.
  * 단, 기능을 추가할 경우에는 메소드 추가를 허용하며, 수정은 금지합니다.
  */
+
 @Component
 public class Database {
     // key: chatRoomId, value: chatMessages
@@ -21,6 +22,7 @@ public class Database {
     private Map<String, Block> blockTb = new HashMap<>();
     // key : userId, value : User
     private Map<String, User> userTb = new HashMap<>();
+
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
@@ -56,4 +58,14 @@ public class Database {
     }
 
     public User getUser(String userId) {return userTb.get(userId);}
+
+    public void chatNoSleep(String chatRoomId, ChatMessage message) {
+        List<ChatMessage> chatMessages = db.get(chatRoomId);
+        chatMessages.add(message);
+        db.put(chatRoomId, chatMessages);
+    }
+    public void inviteNoSleep(String chatRoomId, String userId) {
+        List<ChatMessage> chatMessages = db.get(chatRoomId);
+        chatMessages.add(new ChatMessage(userId, "초대되었습니다.", System.currentTimeMillis()));
+    }
 }
