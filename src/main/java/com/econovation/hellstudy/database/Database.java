@@ -11,10 +11,21 @@ import java.util.*;
  */
 @Component
 public class Database {
+    //ChatRoom
     // key: chatRoomId, value: chatMessages
     private Map<String, List<ChatMessage>> db =  new HashMap<>();
     // key: chatRoomId, value: userIds
     private Map<String, List<String>> guests = new HashMap<>();
+    // key: chatRoomId, value: guestInfos
+    private Map<String, List<GuestInfo>> guestInfos = new HashMap<>();
+
+    //User
+    // key: userId, value: blocks
+    private Map<String, List<Block>> blocks =  new HashMap<>();
+    // key: userId, value: invites
+    private Map<String, List<Invite>> invites =  new HashMap<>();
+
+
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
         Thread.sleep((long) (random() * 300L + 100));
