@@ -17,8 +17,8 @@ import java.util.Queue;
 @RequiredArgsConstructor
 public class CreateChatUseCase {
     private final Database database;
-    private final Validation validation;
     private final MessageQueue messageQueue;
+
 
     public void execute(CreateChatRequest request) {
         long chatRoomId = request.chatRoomId();
