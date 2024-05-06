@@ -46,15 +46,17 @@ public class GetChatUseCase {
     // 채팅방에 있는 채팅을 조회하면 readCount를 채팅방에 있는 채팅수와 같게 만들어줌
     private void updateReadCount(String userId, String chatRoomId) {
         User user = database.getUser(userId);
-        ChatLog chatLog = filterChatLog(chatRoomId, user.getChatLogs());
+        ChatLog chatLog = findByChatRoomId(chatRoomId, user.getChatLogs());
         List<ChatMessage> chatMessages = database.getChatMessages(chatRoomId);
         chatLog.updateReadCount(chatMessages.size());
     }
 
-    private ChatLog filterChatLog(String chatRoomId, List<ChatLog> chatLogs) {
+    private ChatLog findByChatRoomId (String chatRoomId, List<ChatLog> chatLogs) {
         return chatLogs.stream()
                 .filter(cl -> cl.getChatRoomId().equals(chatRoomId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("채팅방이 존재하지 않습니다."));
     }
+
+    //
 }
