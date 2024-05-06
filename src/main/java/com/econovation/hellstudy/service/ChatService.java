@@ -25,20 +25,30 @@ public class ChatService {
         this.database = database;
     }
 
+    //카톡에서 1대1 채팅하면 방 만들어지는 것과 같은 기능
+    public void createRoomAndChat(){ //메세지, fromuserid, 상대방id
+        //차단확인
+        //원래 있던 방 확인
+        //없으면 새로 만들고
+        //있으면 그 방에 나를 입장시킴(setFirstAccessTime(now))
+        //채팅 추가
+    }
+    //원래 있던 방에서 채팅하는 기능
     public void sendChat(SendChatReq sendChatReq) {
         String chatRoomId = sendChatReq.chatRoomId();
         String fromUserId = sendChatReq.fromUserId();
         String message = sendChatReq.message();
 
-        //차단 생각하기
-        //상대방이 나와 쪽지를 하다가 나간 상태였을 때, 상대방이 다시 쪽지를 하게되면 나는 원래있던방에서 쪽지가 와야한다.
-
         ChatRoom chatRoom = database.findChatRoom(chatRoomId);
 
-        //2인 채팅방일 경우 상대방이 다시 채팅방을 볼 수 있도록 함
-        if (chatRoom.getGuestInfos().size() == 2)
-            chatRoom.getGuestInfos().forEach(guestInfo -> guestInfo.setFirstAccessTime(System.currentTimeMillis()));
+        //1인이면 안보내짐
 
+        //2인 채팅방일 경우 상대방이 다시 채팅방을 볼 수 있도록 함
+        if (chatRoom.getGuestInfos().size() == 2) {
+            //상대방 찾기
+            chatRoom.getGuestInfos()
+                    .forEach(guestInfo -> guestInfo.setFirstAccessTime(System.currentTimeMillis()));
+        }
         ChatMessage chatMessage = new ChatMessage(fromUserId, message, System.currentTimeMillis());
 
         try {

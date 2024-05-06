@@ -15,6 +15,7 @@ public class BlockService {
 
     public void blockUser(BlockUserReq blockUserReq){
         database.insertBlock(blockUserReq.blockingUserId(), blockUserReq.blockedUserId());
+        //TODO: 단둘이 있는 채팅방 나가기
     }
 
     public boolean isBlockedUser(String blockingUserId, String blockedUserId){
