@@ -3,53 +3,59 @@ package com.econovation.hellstudy.service;
 import com.econovation.hellstudy.DTO.AcceptInviteReq;
 import com.econovation.hellstudy.DTO.InviteUserReq;
 import com.econovation.hellstudy.DTO.RejectInviteReq;
+import com.econovation.hellstudy.database.ChatRoom;
 import com.econovation.hellstudy.database.Database;
 import com.econovation.hellstudy.database.GuestInfo;
 import com.econovation.hellstudy.database.Invite;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class InviteService {
     private final Database database;
+    private final BlockService blockService;
 
-    public InviteService(Database database) {
+    public InviteService(Database database, BlockService blockService) {
         this.database = database;
+        this.blockService = blockService;
     }
 
     public void inviteUser(InviteUserReq inviteUserReq){
         String chatRoomId = inviteUserReq.chatRoomId();
-        String senderId = inviteUserReq.senderId();
-        String receiverId = inviteUserReq.receiverId();
+        String invitingUserId = inviteUserReq.invitingUserId();
+        String invitedUserId = inviteUserReq.invitedUserId();
 
-        try{
-            database.invite(chatRoomId, receiverId);
-        }catch (InterruptedException e){
-            System.out.println(e.getMessage());
+        List<GuestInfo> guestInfos = database.findChatRoom(chatRoomId).getGuestInfos();
+        if (blockService.isBlockedUser(invitedUserId, invitingUserId))
+            throw new IllegalArgumentException("당신은 차단되었습니다.");
+        if (guestInfos.size() >= 100)
+            throw new IllegalArgumentException("100명까지 들어갈 수 있습니다.");
+        if (guestInfos.size() == 2){
+            guestInfos.forEach(guestInfo -> guestInfo.setFirstAccessTime(System.currentTimeMillis()));
         }
-        //차단 확인
 
-        //이전 초대 존재하는지 확인
-
-        database.createInvite(chatRoomId, new Invite(chatRoomId, senderId, receiverId));
+        try {
+            database.insertInvite(chatRoomId, invitingUserId, invitedUserId);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void acceptInvite(AcceptInviteReq acceptInviteReq){
         String chatRoomId = acceptInviteReq.chatRoomId();
-        String senderId = acceptInviteReq.senderId();
-        String receiverId = acceptInviteReq.receiverId();
-        long nowMill = System.currentTimeMillis();
-        GuestInfo guestInfo = new GuestInfo(receiverId, nowMill, nowMill);
+        String invitingUserId = acceptInviteReq.invitingUserId();
+        String invitedUserId = acceptInviteReq.invitedUserId();
 
-        database.createGuest(chatRoomId, receiverId);
-        database.createGuestInfo(chatRoomId, guestInfo);
-        database.deleteInvite(chatRoomId, new Invite(chatRoomId, senderId, receiverId));
+        Invite invite = database.findInvite(chatRoomId, invitingUserId, invitedUserId);
+        database.insertGuest(chatRoomId, invitedUserId);
+        database.deleteInvite(invitingUserId, invite);
     }
 
     public void rejectInvite(RejectInviteReq rejectInviteReq){
         String chatRoomId = rejectInviteReq.chatRoomId();
-        String senderId = rejectInviteReq.senderId();
-        String receiverId = rejectInviteReq.receiverId();
-        database.deleteInvite(chatRoomId, new Invite(chatRoomId, senderId, receiverId));
-    }
+        String invitingUserId = rejectInviteReq.invitingUserId();
+        String invitedUserId = rejectInviteReq.invitedUserId();
 
+        database.deleteInvite(invitingUserId, new Invite(chatRoomId, invitedUserId));
+    }
 }
