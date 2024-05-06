@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-public class ChatMessageRes {
+public class ChatListRes {
     long messageNumber;
     String userId;
     String message;
@@ -12,7 +12,7 @@ public class ChatMessageRes {
     @Setter
     boolean read;
 
-    public ChatMessageRes(long messageNumber, String userId, String message, long createdTime,
+    public ChatListRes(long messageNumber, String userId, String message, long createdTime,
             boolean read) {
         this.messageNumber = messageNumber;
         this.userId = userId;
