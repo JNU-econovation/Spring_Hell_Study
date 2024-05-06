@@ -1,4 +1,4 @@
-package com.econovation.hellstudy.DTO;
+package com.econovation.hellstudy.DTO.chatroom;
 
 import java.util.List;
 

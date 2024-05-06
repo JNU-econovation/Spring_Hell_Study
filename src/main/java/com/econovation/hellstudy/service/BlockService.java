@@ -1,6 +1,6 @@
 package com.econovation.hellstudy.service;
 
-import com.econovation.hellstudy.DTO.BlockUserReq;
+import com.econovation.hellstudy.DTO.block.BlockUserReq;
 import com.econovation.hellstudy.database.Database;
 import com.econovation.hellstudy.database.User;
 import org.springframework.stereotype.Service;

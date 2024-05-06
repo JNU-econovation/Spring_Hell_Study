@@ -1,4 +1,4 @@
-package com.econovation.hellstudy.DTO;
+package com.econovation.hellstudy.DTO.chat;
 
 import lombok.Getter;
 import lombok.Setter;

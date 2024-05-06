@@ -1,13 +1,12 @@
 package com.econovation.hellstudy.service;
 
-import com.econovation.hellstudy.DTO.ChatRoomListReq;
-import com.econovation.hellstudy.DTO.ChatRoomListRes;
-import com.econovation.hellstudy.DTO.ExitChatRoomReq;
+import com.econovation.hellstudy.DTO.chatroom.ChatRoomListReq;
+import com.econovation.hellstudy.DTO.chatroom.ChatRoomListRes;
+import com.econovation.hellstudy.DTO.chatroom.ExitChatRoomReq;
 import com.econovation.hellstudy.database.ChatMessage;
 import com.econovation.hellstudy.database.ChatRoom;
 import com.econovation.hellstudy.database.Database;
 import com.econovation.hellstudy.database.GuestInfo;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Service;

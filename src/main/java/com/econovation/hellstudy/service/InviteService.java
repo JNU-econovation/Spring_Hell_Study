@@ -1,9 +1,8 @@
 package com.econovation.hellstudy.service;
 
-import com.econovation.hellstudy.DTO.AcceptInviteReq;
-import com.econovation.hellstudy.DTO.InviteUserReq;
-import com.econovation.hellstudy.DTO.RejectInviteReq;
-import com.econovation.hellstudy.database.ChatRoom;
+import com.econovation.hellstudy.DTO.invite.AcceptInviteReq;
+import com.econovation.hellstudy.DTO.invite.InviteUserReq;
+import com.econovation.hellstudy.DTO.invite.RejectInviteReq;
 import com.econovation.hellstudy.database.Database;
 import com.econovation.hellstudy.database.GuestInfo;
 import com.econovation.hellstudy.database.Invite;

@@ -1,10 +1,10 @@
 package com.econovation.hellstudy.service;
 
-import com.econovation.hellstudy.DTO.ChatListReq;
-import com.econovation.hellstudy.DTO.ChatListRes;
-import com.econovation.hellstudy.DTO.ChatReq;
-import com.econovation.hellstudy.DTO.ChatRes;
-import com.econovation.hellstudy.DTO.SendChatReq;
+import com.econovation.hellstudy.DTO.chat.ChatListReq;
+import com.econovation.hellstudy.DTO.chat.ChatListRes;
+import com.econovation.hellstudy.DTO.chat.ChatReq;
+import com.econovation.hellstudy.DTO.chat.ChatRes;
+import com.econovation.hellstudy.DTO.chat.SendChatReq;
 import com.econovation.hellstudy.database.Block;
 import com.econovation.hellstudy.database.ChatMessage;
 import com.econovation.hellstudy.database.ChatRoom;
