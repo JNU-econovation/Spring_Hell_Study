@@ -8,6 +8,10 @@ public class ChatLog {
 
     private String chatRoomId;
     private Integer readCount;
+    //채팅방을 나가면 true로 바뀜
+    private boolean isDeleted;
+    private Integer lastReadCount;
+
 
     public ChatLog(String chatRoomId, Integer readCount) {
         this.chatRoomId = chatRoomId;
