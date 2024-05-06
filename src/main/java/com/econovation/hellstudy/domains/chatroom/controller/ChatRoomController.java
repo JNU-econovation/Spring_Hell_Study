@@ -1,6 +1,6 @@
 package com.econovation.hellstudy.domains.chatroom.controller;
 
-import com.econovation.hellstudy.common.StaticMessage;
+import com.econovation.hellstudy.common.StaticString;
 import com.econovation.hellstudy.domains.chatroom.service.CreateChatRoomUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +18,6 @@ public class ChatRoomController {
     @PostMapping("/chat-room/{userId}")
     public ResponseEntity<String> createChatRoom(@PathVariable Long userId) {
         createChatRoomUseCase.execute(userId);
-        return ResponseEntity.ok(StaticMessage.CREATE_CHAT_ROOM_SUCCESS);
+        return ResponseEntity.ok(StaticString.CREATE_CHAT_ROOM_SUCCESS);
     }
 }
