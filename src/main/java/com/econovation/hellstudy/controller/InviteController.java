@@ -1,8 +1,8 @@
 package com.econovation.hellstudy.controller;
 
-import com.econovation.hellstudy.DTO.AcceptInviteReq;
-import com.econovation.hellstudy.DTO.InviteUserReq;
-import com.econovation.hellstudy.DTO.RejectInviteReq;
+import com.econovation.hellstudy.DTO.invite.AcceptInviteReq;
+import com.econovation.hellstudy.DTO.invite.InviteUserReq;
+import com.econovation.hellstudy.DTO.invite.RejectInviteReq;
 import com.econovation.hellstudy.service.InviteService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

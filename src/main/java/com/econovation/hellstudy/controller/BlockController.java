@@ -1,6 +1,6 @@
 package com.econovation.hellstudy.controller;
 
-import com.econovation.hellstudy.DTO.BlockUserReq;
+import com.econovation.hellstudy.DTO.block.BlockUserReq;
 import com.econovation.hellstudy.service.BlockService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -1,8 +1,8 @@
 package com.econovation.hellstudy.controller;
 
-import com.econovation.hellstudy.DTO.ChatListReq;
-import com.econovation.hellstudy.DTO.ChatMessageRes;
-import com.econovation.hellstudy.DTO.SendChatReq;
+import com.econovation.hellstudy.DTO.chat.ChatListReq;
+import com.econovation.hellstudy.DTO.chat.ChatListRes;
+import com.econovation.hellstudy.DTO.chat.SendChatReq;
 import com.econovation.hellstudy.service.ChatService;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ public class ChatController {
         chatService.sendChat(sendChatReq);
     }
     @GetMapping("/list")
-    public List<ChatMessageRes> getChatList(@RequestBody ChatListReq chatListReq){
-        return chatService.getChatList(chatListReq);
+    public List<ChatListRes> getChatList(@RequestBody ChatListReq chatListReq){
+        return chatService.getChatsInChatRoom(chatListReq);
     }
 }
