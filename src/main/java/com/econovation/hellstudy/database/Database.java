@@ -2,6 +2,7 @@ package com.econovation.hellstudy.database;
 
 import static java.lang.Math.random;
 
+import com.econovation.hellstudy.domains.user.domain.ChatLog;
 import com.econovation.hellstudy.domains.user.domain.Block;
 import com.econovation.hellstudy.domains.user.domain.User;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ public class Database {
     private Map<String, Block> blockTb = new HashMap<>();
     // key : userId, value : User
     private Map<String, User> userTb = new HashMap<>();
+
 
 
     public void chat(String chatRoomId, ChatMessage message) throws InterruptedException {
@@ -59,6 +61,14 @@ public class Database {
 
     public User getUser(String userId) {return userTb.get(userId);}
 
+    // createChatRoom 또는 Invtie시에 ChatLog를 생성할 예정
+    public void createChatLog(String userId, ChatLog chatLog) {
+        User user = userTb.get(userId);
+        user.addChatLog(chatLog);
+    }
+
+
+
     public void chatNoSleep(String chatRoomId, ChatMessage message) {
         List<ChatMessage> chatMessages = db.get(chatRoomId);
         chatMessages.add(message);
@@ -68,4 +78,26 @@ public class Database {
         List<ChatMessage> chatMessages = db.get(chatRoomId);
         chatMessages.add(new ChatMessage(userId, "초대되었습니다.", System.currentTimeMillis()));
     }
+
+    public void createChatRoomNoSleep(String hostId, String chatRoomId) throws InterruptedException {
+        db.put(chatRoomId,new ArrayList<>());
+        // host를 초대한다
+        invite(chatRoomId, hostId);
+        List<String> userIds = new ArrayList<>();
+        userIds.add(hostId);
+        guests.put(chatRoomId, userIds);
+    }
+
+    /**
+     * invite가 createChatRoom에서 호출되는데 Thread.sleep이 있기 때문에 createChatRoom에 어떠한 Thread sleep도 없는 메소드를 추가함.
+     */
+    public void createChatRoomNoAnySleep(String hostId, String chatRoomId) {
+        db.put(chatRoomId,new ArrayList<>());
+        // host를 초대한다
+        inviteNoSleep(chatRoomId, hostId);
+        List<String> userIds = new ArrayList<>();
+        userIds.add(hostId);
+        guests.put(chatRoomId, userIds);
+    }
+
 }
