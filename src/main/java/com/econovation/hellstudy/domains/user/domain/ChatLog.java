@@ -25,4 +25,9 @@ public class ChatLog {
     public void plusReadCount() {
         this.readCount++;
     }
+
+    public void quitChatRoom(Integer lastReadCount) {
+        this.isDeleted = true;
+        this.lastReadCount = lastReadCount;
+    }
 }
