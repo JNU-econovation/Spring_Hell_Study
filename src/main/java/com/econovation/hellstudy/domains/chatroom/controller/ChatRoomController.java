@@ -17,7 +17,7 @@ public class ChatRoomController {
 
     @PostMapping("/chat-room/{userId}")
     public ResponseEntity<String> createChatRoom(@PathVariable Long userId) {
-        createChatRoomUseCase.execute(userId);
+        createChatRoomUseCase.execute(userId.toString());
         return ResponseEntity.ok(StaticString.CREATE_CHAT_ROOM_SUCCESS);
     }
 }
