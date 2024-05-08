@@ -1,17 +1,17 @@
 package com.econovation.hellstudy.domains.chat.service;
 
-import com.econovation.hellstudy.common.helper.Validation;
 import com.econovation.hellstudy.common.message.ChatMessage2;
 import com.econovation.hellstudy.common.message.Message;
 import com.econovation.hellstudy.common.message.MessageQueue;
 import com.econovation.hellstudy.database.ChatMessage;
 import com.econovation.hellstudy.database.Database;
-import com.econovation.hellstudy.domains.chat.domain.Chat;
 import com.econovation.hellstudy.domains.chat.dto.request.CreateChatRequest;
+import com.econovation.hellstudy.domains.user.domain.ChatLog;
+import com.econovation.hellstudy.domains.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Queue;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,12 +21,14 @@ public class CreateChatUseCase {
 
 
     public void execute(CreateChatRequest request) {
-        long chatRoomId = request.chatRoomId();
+        String chatRoomId = request.chatRoomId().toString();
+        String userId = request.userId().toString();
         try {
-            database.chat(String.valueOf(chatRoomId), request.chatMessage());
+            database.chat(chatRoomId, request.chatMessage());
+            updateReadCount(userId, chatRoomId);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-            addMessageToQueue(request.chatMessage(), String.valueOf(chatRoomId));
+            addMessageToQueue(request.chatMessage(), chatRoomId);
         }
    }
 
@@ -39,4 +41,17 @@ public class CreateChatUseCase {
        Message message = new ChatMessage2(chatMessage, chatRoomId);
        messageQueue.push(message);
    }
+    // 자기가 보낸 메세지는 자기가 읽었다고 처리
+    private void updateReadCount(String userId, String chatRoomId) {
+        User user = database.getUser(userId);
+        ChatLog chatLog = filterChatLog(chatRoomId, user.getChatLogs());
+        chatLog.plusReadCount();
+    }
+
+    private ChatLog filterChatLog(String chatRoomId, List<ChatLog> chatLogs) {
+        return chatLogs.stream()
+                .filter(cl -> cl.getChatRoomId().equals(chatRoomId))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("채팅방이 존재하지 않습니다."));
+    }
 }
