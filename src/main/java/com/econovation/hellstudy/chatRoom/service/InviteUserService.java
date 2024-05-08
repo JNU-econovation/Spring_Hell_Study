@@ -16,15 +16,35 @@ public class InviteUserService {
 
     private final Database database;
     @Qualifier(value = "threadPoolTaskExecutor") private final Executor threadPoolTaskExecutor;
+    private static final int PARALLEL_LIMIT = 30;
 
     @Async
     public void execute(InviteUserRequest inviteUserRequest){
-        CompletableFuture.runAsync(() -> {
-            try {
-                database.invite(inviteUserRequest.chatRoomId(),inviteUserRequest.visitorId());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
-        }, threadPoolTaskExecutor);
+
+        if(inviteUserRequest.visitorIds().size() > PARALLEL_LIMIT){
+
+            inviteUserRequest.visitorIds().parallelStream()
+                    .forEach(visitorId ->
+                            CompletableFuture.runAsync(() -> {
+                                try {
+                                    database.invite(inviteUserRequest.chatRoomId(), visitorId);
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
+                            }, threadPoolTaskExecutor)
+                    );
+        }else{
+            inviteUserRequest.visitorIds().stream()
+                    .forEach(visitorId ->
+                            CompletableFuture.runAsync(() -> {
+                                try {
+                                    database.invite(inviteUserRequest.chatRoomId(), visitorId);
+                                } catch (InterruptedException e) {
+                                    Thread.currentThread().interrupt();
+                                }
+                            }, threadPoolTaskExecutor)
+                    );
+        }
+
     }
 }
