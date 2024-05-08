@@ -25,7 +25,7 @@ public class CreateChatRoomService {
                         try {
                             database.createChatRoom(hostId, nextChatRoomId);
                         } catch (InterruptedException e) {
-                            throw new RuntimeException(e);
+                            Thread.currentThread().interrupt();
                         }
                     }, threadPoolTaskExecutor
             );
