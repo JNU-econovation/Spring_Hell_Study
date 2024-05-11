@@ -16,6 +16,7 @@ Aggregate란, 여러 도메인을 하나로 합치는 과정을 의미합니다.
 
 
 아래 페이지는 신입모집 어드민 페이지입니다.
+<img width="1062" alt="image" src="https://github.com/JNU-econovation/Spring_Hell_Study/assets/54030889/9cc9bc92-923d-4649-bb92-ac914f4f6ab5">
 
 하나의 API 요청에 모든 데이터를 담을 수 있도록 구성해봅시다.
 
