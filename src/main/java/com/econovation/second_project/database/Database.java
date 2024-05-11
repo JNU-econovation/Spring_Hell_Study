@@ -1,4 +1,4 @@
-package com.econovation.hellstudy.database;
+package com.econovation.second_project.database;
 
 import static java.lang.Math.random;
 

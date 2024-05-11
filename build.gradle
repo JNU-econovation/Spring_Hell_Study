@@ -26,6 +26,8 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    // hibernate snowflake
+    implementation 'org.hibernate:hibernate-core:5.6.4.Final'
 }
 
 tasks.named('test') {

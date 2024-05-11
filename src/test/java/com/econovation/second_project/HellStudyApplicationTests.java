@@ -1,4 +1,4 @@
-package com.econovation.hellstudy;
+package com.econovation.second_project;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
