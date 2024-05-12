@@ -11,3 +11,9 @@ public class DesiredTime {
     // 희망 시간 (11 * 3)의 테이블 형태를 준수합니다.
     private List<int[]> desiredTime;
 }
+
+/**
+ * 0 -> (0,1)
+ * 1 -> (1,2)
+ * 2 -> (2,3) ...
+ */
