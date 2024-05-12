@@ -1,6 +1,7 @@
 package com.econovation.third_project.database;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,14 @@ public class Database {
         // 기본적으로 이전 제출시 등록된 정보가 있으면 덮어쓰기를 지원합니다.
         registration.put(UUID.randomUUID().toString(), registrationRequest);
     }
+
+    public List<Path> getPaths(){ return path.values().stream().toList(); }
+
+    public List<DesiredTime> getDesiredTimes(){ return desiredTime.values().stream().toList(); }
+
+    public List<PersonalInformation> getPersonalInformations(){ return personalInformation.values().stream().toList(); }
+
+    public List<Registration> getRegistrations(){ return registration.values().stream().toList(); }
 
     public Registration getRegistration(String userId) {
         return registration.get(userId);
