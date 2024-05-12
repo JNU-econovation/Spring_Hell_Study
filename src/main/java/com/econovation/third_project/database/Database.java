@@ -1,8 +1,10 @@
 package com.econovation.third_project.database;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -25,4 +27,29 @@ public class Database {
     public Registration getRegistration(String userId) {
         return registration.get(userId);
     }
+
+    public List<Registration> getAllRegistration(){
+        return registration.keySet().stream().map(
+                key -> registration.get(key)
+        ).toList();
+    }
+
+    public List<PersonalInformation> getAllPersonalInformation(){
+        return personalInformation.keySet().stream().map(
+                key -> personalInformation.get(key)
+        ).toList();
+    }
+
+    public List<Path> getAllPath(){
+        return path.keySet().stream().map(
+                key -> path.get(key)
+        ).toList();
+    }
+
+    public List<DesiredTime> getAllDesiredTime(){
+        return desiredTime.keySet().stream().map(
+                key -> desiredTime.get(key)
+        ).toList();
+    }
+
 }

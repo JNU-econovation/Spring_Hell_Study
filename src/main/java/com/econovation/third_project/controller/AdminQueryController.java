@@ -1,7 +1,11 @@
 package com.econovation.third_project.controller;
 
+import com.econovation.third_project.service.ApplicantQueryService;
 import com.econovation.third_project.database.Database;
 import com.econovation.third_project.database.Registration;
+import com.econovation.third_project.service.HopeFieldQueryService;
+import com.econovation.third_project.service.MajorQueryService;
+import com.econovation.third_project.service.SupportPathQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequiredArgsConstructor
 public class AdminQueryController {
     private final Database database;
+    private final ApplicantQueryService applicantQueryService;
+    private final MajorQueryService majorQueryService;
+    private final SupportPathQueryService supportPathQueryService;
+    private final HopeFieldQueryService hopeFieldQueryService;
 
     // 예시 코드
     @PostMapping("/registration")
@@ -20,8 +28,13 @@ public class AdminQueryController {
         database.register(registration);
         return ResponseEntity.ok().build();
     }
-    @GetMapping("/registration")
-    public ResponseEntity<Registration> getRegistration(String userId) {
+    @GetMapping("/admin")
+    public ResponseEntity<Registration> getAdmin(String userId) {
+        applicantQueryService.execute();
+        majorQueryService.execute();
+        hopeFieldQueryService.execute();
+        supportPathQueryService.execute();
+
         return ResponseEntity.ok().body(database.getRegistration(userId));
     }
 
