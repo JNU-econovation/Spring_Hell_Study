@@ -2,6 +2,7 @@ package com.econovation.third_project.controller;
 
 import com.econovation.third_project.database.Database;
 import com.econovation.third_project.database.Registration;
+import com.econovation.third_project.dto.response.GetAdminPageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,12 @@ public class AdminQueryController {
     @GetMapping("/registration")
     public ResponseEntity<Registration> getRegistration(String userId) {
         return ResponseEntity.ok().body(database.getRegistration(userId));
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<GetAdminPageResponse> getAdminPage() {
+
+        return ResponseEntity.ok().body()
     }
 
 }

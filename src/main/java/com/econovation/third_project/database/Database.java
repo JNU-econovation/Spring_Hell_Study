@@ -1,8 +1,7 @@
 package com.econovation.third_project.database;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class Database {
+    //key : userId
     private final Map<String, Registration> registration = new HashMap<>();
     private final Map<String, Path> path = new HashMap<>();
     private final Map<String, PersonalInformation> personalInformation = new HashMap<>();
@@ -25,4 +25,6 @@ public class Database {
     public Registration getRegistration(String userId) {
         return registration.get(userId);
     }
+
+    public Collection<Registration> findAllRegistration() {return registration.values();}
 }
