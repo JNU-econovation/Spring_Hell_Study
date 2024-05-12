@@ -1,21 +1,31 @@
 package com.econovation.third_project.database;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 @Getter
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Registration {
-    // 희망분야
-    private String hopeField;
+    @NonNull
+    private Job hopeJob;
+    @NonNull
+    private Optional<JobField> firstPriority;
+    @NonNull
+    private Optional<JobField> secondPriority;
 
-    // 1지망
-    private String firstPriority;
+    public static Registration of(String hopeJob, String firstPriority, String secondPriority){
+        Job job = Job.valueOf(hopeJob.toUpperCase()); //없으면 Illegal
 
-    // 2지망
-    private String secondPriority;
+        Optional<JobField> firstJobField = job.getJobFields().stream().filter(jf -> jf.name().equals(firstPriority)).findAny();
+        Optional<JobField> secondJobField = job.getJobFields().stream().filter(jf -> jf.name().equals(secondPriority)).findAny();
 
-    public Registration(String hopeField, String firstPriority, String secondPriority) {
-        this.hopeField = hopeField;
-        this.firstPriority = firstPriority;
-        this.secondPriority = secondPriority;
+        return new Registration(job, firstJobField, secondJobField);
     }
+
 }
