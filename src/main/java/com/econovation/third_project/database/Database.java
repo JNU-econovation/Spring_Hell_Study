@@ -25,4 +25,17 @@ public class Database {
     public Registration getRegistration(String userId) {
         return registration.get(userId);
     }
+
+    public Map<String, Registration> getAllRegistration(){
+        return this.registration;
+    }
+
+    public Map<String, PersonalInformation> getAllPersonalInformation(){
+        return this.personalInformation;
+    }
+
+    public Map<String, Path> getAllPath(){
+        return this.path;
+    }
+
 }
