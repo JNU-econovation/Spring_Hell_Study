@@ -1,31 +1,37 @@
 package com.econovation.third_project.database;
 
-import java.util.List;
+import com.econovation.third_project.config.Field;
+import com.econovation.third_project.config.Job;
 import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Registration {
     @NonNull
     private Job hopeJob;
     @NonNull
-    private Optional<JobField> firstPriority;
-    @NonNull
-    private Optional<JobField> secondPriority;
+    private Field firstPriority;
+    private Field secondPriority;
 
-    public static Registration of(String hopeJob, String firstPriority, String secondPriority){
-        Job job = Job.valueOf(hopeJob.toUpperCase()); //없으면 Illegal
+    public static Registration of(@NonNull String hopeJob, @NonNull String firstJobFieldName, String secondJobFieldName){
+        Job job = Job.valueOf(hopeJob.toUpperCase());
 
-        Optional<JobField> firstJobField = job.getJobFields().stream().filter(jf -> jf.name().equals(firstPriority)).findAny();
-        Optional<JobField> secondJobField = job.getJobFields().stream().filter(jf -> jf.name().equals(secondPriority)).findAny();
+        Field firstPriority = Field.valueOf(firstJobFieldName.toUpperCase());
+        Field secondPriority = secondJobFieldName != null ?
+                Field.valueOf(secondJobFieldName.toUpperCase()) : null;
 
-        return new Registration(job, firstJobField, secondJobField);
+        return new Registration(job, firstPriority, secondPriority);
+    }
+
+    public Field getFirstPriority(){
+        return this.firstPriority;
+    }
+    public Optional<Field> getSecondPriority(){
+        return Optional.ofNullable(this.secondPriority);
     }
 
 }

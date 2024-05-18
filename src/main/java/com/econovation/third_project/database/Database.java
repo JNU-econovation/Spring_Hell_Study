@@ -1,8 +1,6 @@
 package com.econovation.third_project.database;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,12 +14,26 @@ import org.springframework.stereotype.Component;
 public class Database {
     //key: user id
     private final Map<String, Registration> registration = new ConcurrentHashMap<>();
-    //key: user id - fk같은?
+    //key: path id
     private final Map<String, Path> path = new ConcurrentHashMap<>();
-    //key: user id
+    //key: pi id
     private final Map<String, PersonalInformation> personalInformation = new ConcurrentHashMap<>();
-    //key: user id
+    //key: dt id
     private final Map<String, DesiredTime> desiredTime = new ConcurrentHashMap<>();
+
+    public Collection<Registration> getAllRegistrations(){
+        return registration.values();
+    }
+    public Collection<PersonalInformation> getAllPersonalInformation(){
+        return personalInformation.values();
+    }
+    public Collection<Path> getAllPath() {
+        return path.values();
+    }
+    public Collection<DesiredTime> getAllDesiredTime(){
+        return desiredTime.values();
+    }
+
 
 
     public void register(Registration registrationRequest) {
@@ -31,10 +43,6 @@ public class Database {
 
     public Registration getRegistration(String userId) {
         return registration.get(userId);
-    }
-
-    public Collection<Registration> getRegistrations(){
-        return registration.values();//이거 Collection 반환하는거 첨 알았다.
     }
 
 
