@@ -25,16 +25,9 @@ public class Database {
         return registration.get(userId);
     }
 
-    // 희망 분야별로 1지망, 2지망 카운트
-    // 희망 분야 6개, 6개 마다 1지망, 2지망 count
-    public HashMap<String,ArrayList<Integer>> getRegistrationHopeFieldsTotalCount(){
-        HashMap<String,ArrayList<Integer>> registrationHopefields = new HashMap<>();
-        // 조건 분기 하나하나 나누는건 뭔가 아닌듯하다... 경우의수만 12가지
-        // 자동 순환, 자동 count => 이걸 지원하는 기능을 찾을 필요성이 있다.
-
-
+    public Map<String,Registration> getAllRegistrations(){
+        return registration;
     }
-
 
 
     // 서비스 파일에 작성해야 하는 로직인지 확인하기

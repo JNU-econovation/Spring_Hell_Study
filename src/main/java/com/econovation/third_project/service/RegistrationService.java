@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @AllArgsConstructor
@@ -33,7 +35,24 @@ public class RegistrationService {
 
     // 희망 분야별 합
     // 등록시 1지망 2지망을 나눠서 토탈 카운트
+    // 희망 분야별 합은 service 파일에서 작성
+    public Map<String, Integer> getHopeFieldsFirstPriorityCount() {
+        Map<String, Integer> firstHopeFieldCount = new HashMap<>();
+        for (Registration registration : database.getAllRegistrations().values()) {
+            String firstHopeField = registration.getFirstPriority();
+            firstHopeFieldCount.put(firstHopeField, firstHopeFieldCount.getOrDefault(firstHopeField, 0) + 1); // getOrDefault
+        }
+        return firstHopeFieldCount;
+    }
 
+    public Map<String, Integer> getHopeFieldsSecondPriorityCount() {
+        Map<String, Integer> secondHopeFieldCount = new HashMap<>();
+        for (Registration registration : database.getAllRegistrations().values()) {
+            String secondHopeField = registration.getSecondPriority();
+            secondHopeFieldCount.put(secondHopeField, secondHopeFieldCount.getOrDefault(secondHopeField, 0) + 1);
+        }
+        return secondHopeFieldCount;
+    }
 
 
 
