@@ -82,6 +82,7 @@ public class RegistrationService {
         return pathCount;
     }
 
-    // 면접 희망 시간
+    // 면접 희망 시간 통계
+
 
 }

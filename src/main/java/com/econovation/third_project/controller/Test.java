@@ -1,5 +1,6 @@
 package com.econovation.third_project.controller;
 
+import com.econovation.third_project.database.DesiredTime;
 import com.econovation.third_project.database.Path;
 import com.econovation.third_project.database.PersonalInformation;
 import com.econovation.third_project.database.Registration;
@@ -26,20 +27,27 @@ public class Test {
         return "success";
     }
 
-    // 지원자 정보 저장
+    // 지원자 정보 생성
     @PostMapping("/register-personal-inform")
     public String registerPersonInform(@RequestBody PersonalInformation personalInformation){
         registrationService.registerPersonalInform(personalInformation);
         return "success";
     }
 
-    // 지원자 지원 경로 저장
+    // 지원자 지원 경로 생성
     @PostMapping("/register-path")
     public String registerPath(@RequestBody Path path){
         registrationService.registerPath(path);
         return "success";
     }
 
+    // 지원자 면접 가능 시간 생성
+    @PostMapping("/register-desired-time")
+    public String registerDesiredTime(@RequestBody DesiredTime desiredTime){
+        registrationService.registerDesiredTime(desiredTime);
+        return "success";
+    }
+    
 
     // 전체 지원자 수
     @GetMapping("/registrations-count")
