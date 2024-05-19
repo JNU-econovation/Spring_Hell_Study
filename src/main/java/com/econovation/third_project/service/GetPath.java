@@ -2,7 +2,6 @@ package com.econovation.third_project.service;
 
 import com.econovation.third_project.database.Database;
 import com.econovation.third_project.database.Path;
-import com.econovation.third_project.database.Registration;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;

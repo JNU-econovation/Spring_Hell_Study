@@ -38,4 +38,7 @@ public class Database {
         return this.path;
     }
 
+    public Map<String, DesiredTime> getAllDesiredTime(){
+        return this.desiredTime;
+    }
 }

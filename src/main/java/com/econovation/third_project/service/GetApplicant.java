@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class GetApplicant {
     private final Database db;
 
-    public ApplicantMap getAllApplicant(){
+    public ApplicantMapper getAllApplicant(){
         Map<String, Registration> allRegistration = db.getAllRegistration();
 
         // PG 개발자, PM 기획자, DE 디자이너
@@ -49,7 +49,7 @@ public class GetApplicant {
 
         }
 
-        return new ApplicantMap(allApplicantNum, allApplicantPriority);
+        return new ApplicantMapper(allApplicantNum, allApplicantPriority);
     }
 
 //    public Map<String, int[]> getAllApplicantPriority(){
