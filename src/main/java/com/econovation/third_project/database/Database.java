@@ -1,8 +1,7 @@
 package com.econovation.third_project.database;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,7 +21,77 @@ public class Database {
         registration.put(UUID.randomUUID().toString(), registrationRequest);
     }
 
+    // PersonalInformation 생성
+    public void savePersonalInformation(PersonalInformation personalInformationRequest){
+        personalInformation.put(UUID.randomUUID().toString(), personalInformationRequest);
+    }
+
+    // 지원 경로 생성
+    public void savePath(Path pathRequest){
+        path.put(UUID.randomUUID().toString(), pathRequest);
+    }
+
+    // 가능 시간 생성
+    public void saveDesiredTime(DesiredTime desiredTimeRequest){
+        desiredTime.put(UUID.randomUUID().toString(),desiredTimeRequest);
+    }
+
     public Registration getRegistration(String userId) {
         return registration.get(userId);
     }
+
+    // 전체 등록 데이터
+    public Map<String,Registration> getAllRegistrations(){
+        return registration;
+    }
+
+    // 전체 소속 데이터
+    public Map<String,PersonalInformation> getAllPersionalInformation(){
+        return personalInformation;
+    }
+
+    // 전체 경로 데이터
+    public Map<String,Path> getAllPath(){
+        return path;
+    }
+
+    // 전체 시간 데이터
+    public Map<String,DesiredTime> getAllDesiredTime(){
+        return desiredTime;
+    }
+
+    // 서비스 파일에 작성해야 하는 로직인지 확인하기
+    public int getRegistrationCount(){
+        return registration.size();
+    }
+
+    // 개발자, 기획자, 디자이너 각각 Count // 서비스 파일에 작성해야 하는 로직인지 확인하기
+    public ArrayList<Integer> getHopeFieldsTotalCount(){
+        ArrayList<Integer> hopeFields = new ArrayList<Integer>(3);
+        // 초기화 방식도 뭔가 이상하다
+        hopeFields.add(0);
+        hopeFields.add(0);
+        hopeFields.add(0);
+        Integer count = 0;
+        // 할 수 있는 조회 방법, 너무 하드 코딩 같다
+        for(Map.Entry<String,Registration> entrySet : registration.entrySet()){
+            if(entrySet.getValue().getHopeField().equals("개발자")){ // == 의 경우 비교 연산이 이뤄지지 않음
+                count = hopeFields.get(0);
+                hopeFields.set(0,count+1);
+            }
+            else if(entrySet.getValue().getHopeField().equals("기획자")){
+                count = hopeFields.get(1);
+                hopeFields.set(1,count+1);
+            }
+            else if(entrySet.getValue().getHopeField().equals("디자이너")){
+                count = hopeFields.get(2);
+                hopeFields.set(2,count+1);
+            }
+            else{
+                // 예외 처리
+            }
+        }
+        return hopeFields;
+    }
+
 }
