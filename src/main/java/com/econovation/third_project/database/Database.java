@@ -21,12 +21,33 @@ public class Database {
         registration.put(UUID.randomUUID().toString(), registrationRequest);
     }
 
+    // PersonalInformation 생성
+    public void savePersonalInformation(PersonalInformation personalInformationRequest){
+        personalInformation.put(UUID.randomUUID().toString(), personalInformationRequest);
+    }
+
+    // 지원 경로 생성
+    public void savePath(Path pathRequest){
+        path.put(UUID.randomUUID().toString(), pathRequest);
+    }
+
+    // 가능 시간 생성
+    public void saveDesiredTime(DesiredTime desiredTimeRequest){
+        desiredTime.put(UUID.randomUUID().toString(),desiredTimeRequest);
+    }
+
     public Registration getRegistration(String userId) {
         return registration.get(userId);
     }
 
+    // 전체 등록 데이터
     public Map<String,Registration> getAllRegistrations(){
         return registration;
+    }
+
+    // 전체 소속 데이터
+    public Map<String, PersonalInformation> getAllPersionalInformation(){
+        return personalInformation;
     }
 
 

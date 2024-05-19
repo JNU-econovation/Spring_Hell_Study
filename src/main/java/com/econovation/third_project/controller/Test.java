@@ -1,5 +1,6 @@
 package com.econovation.third_project.controller;
 
+import com.econovation.third_project.database.PersonalInformation;
 import com.econovation.third_project.database.Registration;
 import com.econovation.third_project.service.RegistrationService;
 import lombok.AllArgsConstructor;
@@ -24,14 +25,20 @@ public class Test {
         return "success";
     }
 
+    @PostMapping("/register-personal-inform")
+    public String registerPersonInform(@RequestBody PersonalInformation personalInformation){
+        registrationService.registerPersonalInform(personalInformation);
+        return "success";
+    }
+
     // 전체 지원자 수
-    @GetMapping("/register-count")
+    @GetMapping("/registrations-count")
     public Integer getTotalRegisterCount(){
         return registrationService.getRegistrationCount();
     }
 
     // 개발자, 기획자, 디자이너 별 지원자 수
-    @GetMapping("/register-hope-count")
+    @GetMapping("/registrations-hope-count")
     public ArrayList<Integer> getHopeFieldsTotalRegisterCount(){
         return registrationService.getHopeFieldsTotalCount();
     }
@@ -46,6 +53,10 @@ public class Test {
         return registrationService.getHopeFieldsSecondPriorityCount();
     }
 
+    @GetMapping("/registrations/department-count")
+    public Map<String, Integer> getDepartmentCount(){
+        return registrationService.getDepartmentCount();
+    }
 
 
 }

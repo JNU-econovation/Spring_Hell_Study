@@ -1,6 +1,7 @@
 package com.econovation.third_project.service;
 
 import com.econovation.third_project.database.Database;
+import com.econovation.third_project.database.PersonalInformation;
 import com.econovation.third_project.database.Registration;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,9 @@ public class RegistrationService {
     public void register(Registration registration){
         database.register(registration);
     }
+
+    // 개인 정보 등록
+    public void registerPersonalInform(PersonalInformation personalInformation){database.savePersonalInformation(personalInformation);}
 
     // 전체 지원자 수 누적 합
     public int getRegistrationCount(){
@@ -54,10 +58,16 @@ public class RegistrationService {
         return secondHopeFieldCount;
     }
 
-
-
-
     // 소속 학과 합
+    public Map<String,Integer> getDepartmentCount(){
+        Map<String,Integer> departmentCount = new HashMap<>();
+        for(PersonalInformation personalInformation : database.getAllPersionalInformation().values()){
+            String major = personalInformation.getMajor();
+            departmentCount.put(major, departmentCount.getOrDefault(major,0)+1);
+        }
+        return departmentCount;
+    }
+
 
     // 지원 경로 통계
 
