@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -17,11 +16,5 @@ public class RegistrationAdaptor implements RegistrationQueryPort {
     @Override
     public Collection<Registration> findAllRegistration() {
         return database.findAllRegistration();
-    }
-
-    public List<Registration> findByCardinal(Integer cardinal) {
-        return database.findAllRegistration().stream()
-                .filter(registration -> registration.getCardinal().equals(cardinal))
-                .toList();
     }
 }
