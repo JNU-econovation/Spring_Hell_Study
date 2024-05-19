@@ -27,4 +27,10 @@ public class Database {
     }
 
     public Collection<Registration> findAllRegistration() {return registration.values();}
+
+    public Collection<PersonalInformation> findAllPersonalInformation() {return personalInformation.values();}
+
+    public Collection<Path> findAllPath() {return path.values();}
+
+    public Collection<DesiredTime> findAllDesiredTime() {return desiredTime.values();}
 }
