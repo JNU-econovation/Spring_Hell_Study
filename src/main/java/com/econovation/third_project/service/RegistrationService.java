@@ -35,9 +35,9 @@ public class RegistrationService {
     }
 
     //지원 조회
-    public Registration getRegistration(String registrationId){
-        return db.getRegistration(registrationId);
-    }
+//    public Registration getRegistration(String registrationId){
+//        return db.getRegistration(registrationId);
+//    }
 
     //세부 분야별 지원자 수
     public List<ApplicantNumberInField> getApplicantNumberEachField(){
@@ -53,13 +53,14 @@ public class RegistrationService {
                             .ifPresent(secondPriority -> jobPriorityCounts.get(secondPriority)[1]++);
                 });
 
-        return jobPriorityCounts.entrySet()
-                .stream()
+        return jobPriorityCounts.entrySet().stream()
                 .map(entry->
                         new ApplicantNumberInField(
                                 entry.getKey().getFieldName(),
                                 entry.getValue()[0],
-                                entry.getValue()[1]))
+                                entry.getValue()[1]
+                        )
+                )
                 .sorted(reverseOrder())
                 .toList();
     }

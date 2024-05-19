@@ -2,12 +2,12 @@ package com.econovation.third_project.database;
 
 import java.util.Optional;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
+@Builder
 public class PersonalInformation {
-    private String registrationId;
 
     // 이름
     private String name;
@@ -35,10 +35,11 @@ public class PersonalInformation {
     // 이메일
     private String email;
 
-    public Optional<String> getDoubleMajor(){
+    public Optional<String> getDoubleMajor() {
         return Optional.ofNullable(this.doubleMajor);
     }
-    public Optional<String> getMinor(){
+
+    public Optional<String> getMinor() {
         return Optional.ofNullable(this.minor);
     }
 

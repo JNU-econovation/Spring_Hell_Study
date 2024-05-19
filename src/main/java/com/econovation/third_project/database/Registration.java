@@ -26,10 +26,6 @@ public class Registration {
 
         return new Registration(job, firstPriority, secondPriority);
     }
-
-    public Field getFirstPriority(){
-        return this.firstPriority;
-    }
     public Optional<Field> getSecondPriority(){
         return Optional.ofNullable(this.secondPriority);
     }

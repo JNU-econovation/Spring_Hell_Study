@@ -2,9 +2,9 @@ package com.econovation.third_project.database;
 
 import java.util.List;
 
-public final class DesiredTimeNow extends DesiredTime{
-    public DesiredTimeNow(String registrationId, List<List<Integer>> desiredTimes){
-        super(registrationId, desiredTimes);
+public final class DesiredTime27 extends DesiredTime{
+    public DesiredTime27(List<List<Integer>> desiredTimes){
+        super(desiredTimes);
     }
 
     @Override

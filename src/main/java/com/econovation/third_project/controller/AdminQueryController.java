@@ -2,6 +2,8 @@ package com.econovation.third_project.controller;
 
 import com.econovation.third_project.database.Database;
 import com.econovation.third_project.database.Registration;
+import com.econovation.third_project.dto.CreateApplicationReq;
+import com.econovation.third_project.service.ApplicationService;
 import com.econovation.third_project.service.DesiredTimeService;
 import com.econovation.third_project.service.PathService;
 import com.econovation.third_project.service.PersonalInformationService;
@@ -20,22 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping("/api/admin")
 public class AdminQueryController {
-    private final Database database;
     private final RegistrationService registrationService;
     private final PathService pathService;
     private final PersonalInformationService personalInformationService;
     private final DesiredTimeService desiredTimeService;
 
-    // 예시 코드
-    @PostMapping("/registration")
-    public ResponseEntity<Object> postRegistration(@RequestBody Registration registration) {
-        database.register(registration);
-        return ResponseEntity.ok().build();
-    }
-    @GetMapping("/registration")
-    public ResponseEntity<Registration> getRegistration(String userId) {
-        return ResponseEntity.ok().body(database.getRegistration(userId));
-    }
 
     //쿼리 파라미터
     @GetMapping("/applicants")
@@ -46,7 +37,7 @@ public class AdminQueryController {
                 "field", registrationService.getApplicantNumberEachField(),
                 "major", personalInformationService.getApplicantNumberEachMajor(),
                 "path", pathService.getApplicantNumberEachPath(),
-                "time", desiredTimeService.getApplicantNumberEachTime()
+                "desired_time", desiredTimeService.getApplicantNumberEachTime()
         ));
     }
 
