@@ -1,8 +1,6 @@
 package com.econovation.third_project.service;
 
-import com.econovation.third_project.database.Database;
-import com.econovation.third_project.database.PersonalInformation;
-import com.econovation.third_project.database.Registration;
+import com.econovation.third_project.database.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +22,12 @@ public class RegistrationService {
 
     // 개인 정보 등록
     public void registerPersonalInform(PersonalInformation personalInformation){database.savePersonalInformation(personalInformation);}
+
+    // 지원 경로 정보 등록
+    public void registerPath(Path path){database.savePath(path);}
+
+    // 면접 가능 시간 등록
+    public void registerDesiredTime(DesiredTime desiredTime){database.saveDesiredTime(desiredTime);}
 
     // 전체 지원자 수 누적 합
     public int getRegistrationCount(){
@@ -68,8 +72,15 @@ public class RegistrationService {
         return departmentCount;
     }
 
-
     // 지원 경로 통계
+    public Map<String,Integer> getPathCount(){
+        Map<String,Integer> pathCount = new HashMap<>();
+        for(Path path : database.getAllPath().values()){
+            String p = path.getSupportPath().getType();
+            pathCount.put(p,pathCount.getOrDefault(p,0)+1);
+        }
+        return pathCount;
+    }
 
     // 면접 희망 시간
 

@@ -46,10 +46,19 @@ public class Database {
     }
 
     // 전체 소속 데이터
-    public Map<String, PersonalInformation> getAllPersionalInformation(){
+    public Map<String,PersonalInformation> getAllPersionalInformation(){
         return personalInformation;
     }
 
+    // 전체 경로 데이터
+    public Map<String,Path> getAllPath(){
+        return path;
+    }
+
+    // 전체 시간 데이터
+    public Map<String,DesiredTime> getAllDesiredTime(){
+        return desiredTime;
+    }
 
     // 서비스 파일에 작성해야 하는 로직인지 확인하기
     public int getRegistrationCount(){

@@ -1,5 +1,6 @@
 package com.econovation.third_project.controller;
 
+import com.econovation.third_project.database.Path;
 import com.econovation.third_project.database.PersonalInformation;
 import com.econovation.third_project.database.Registration;
 import com.econovation.third_project.service.RegistrationService;
@@ -25,11 +26,20 @@ public class Test {
         return "success";
     }
 
+    // 지원자 정보 저장
     @PostMapping("/register-personal-inform")
     public String registerPersonInform(@RequestBody PersonalInformation personalInformation){
         registrationService.registerPersonalInform(personalInformation);
         return "success";
     }
+
+    // 지원자 지원 경로 저장
+    @PostMapping("/register-path")
+    public String registerPath(@RequestBody Path path){
+        registrationService.registerPath(path);
+        return "success";
+    }
+
 
     // 전체 지원자 수
     @GetMapping("/registrations-count")
@@ -53,10 +63,16 @@ public class Test {
         return registrationService.getHopeFieldsSecondPriorityCount();
     }
 
+    // 지원자 학과별 수
     @GetMapping("/registrations/department-count")
     public Map<String, Integer> getDepartmentCount(){
         return registrationService.getDepartmentCount();
     }
 
+    // 지원 경로별 수
+    @GetMapping("/registrations/path-count")
+    public Map<String, Integer> getPathCount(){
+        return registrationService.getPathCount();
+    }
 
 }

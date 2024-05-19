@@ -8,5 +8,5 @@ import lombok.Getter;
 public class Path {
     String registrationId;
     // 지원 경로
-    private String supportPath;
+    private PathType supportPath;
 }
