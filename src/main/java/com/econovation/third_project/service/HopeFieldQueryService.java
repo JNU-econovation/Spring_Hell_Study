@@ -31,6 +31,5 @@ public class HopeFieldQueryService {
 
         return firstPriorityMap.keySet().stream()
                 .map(programmerField -> ProgrammerFieldDTO.of(programmerField.name(), firstPriorityMap.get(programmerField).size(),secondPriorityMap.get(programmerField).size())).toList();
-
     }
 }

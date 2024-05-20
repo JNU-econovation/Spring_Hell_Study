@@ -27,9 +27,16 @@ public class DesiredTimeQueryService {
                 .toList();
 
         Map<Table, List<TimeTable>> tableListMap = timeTables.stream().collect(groupingBy(TimeTable::getDesiredTime));
-        tableListMap.keySet().stream()
-                .map(table ->  )
+        List<DesiredTimeDTO> desiredTimeDTOS = tableListMap.keySet().stream()
+                .map(table ->
+                        DesiredTimeDTO.of(
+                                table,
+                                tableListMap.get(table).size(),
+                                database.getPersonalInformation(
+                                        tableListMap.get(table).stream()
+                                                .map(timeTable -> timeTable.getPersonalInfoId()).toList()))
+                ).toList();
 
-        // 어떤 사람인 지 알아야한다.
+        return desiredTimeDTOS;
     }
 }

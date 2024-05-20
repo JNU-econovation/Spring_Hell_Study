@@ -11,12 +11,12 @@ import java.util.List;
 @AllArgsConstructor
 public class TimeTable {
 
-    String registrationId;
+    private String personalInfoId;
     private Table desiredTime;
 
     public static List<TimeTable> from(DesiredTime desiredTime){
         return desiredTime.getDesiredTime().stream()
-                .map(dt -> new TimeTable(dt.name(),dt))
+                .map(dt -> new TimeTable(desiredTime.getPersonalInfoId(),dt))
                 .toList();
     }
 

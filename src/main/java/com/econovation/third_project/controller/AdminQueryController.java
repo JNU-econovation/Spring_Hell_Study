@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.time.LocalDate;
+
 @Controller
 @RequiredArgsConstructor
 public class AdminQueryController {
@@ -34,7 +36,7 @@ public class AdminQueryController {
         majorQueryService.execute();
         hopeFieldQueryService.execute();
         supportPathQueryService.execute();
-
+        hopeFieldQueryService.execute();
         return ResponseEntity.ok().body(database.getRegistration(userId));
     }
 

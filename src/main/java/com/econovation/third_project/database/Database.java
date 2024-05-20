@@ -1,9 +1,6 @@
 package com.econovation.third_project.database;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import org.springframework.stereotype.Component;
 
@@ -38,6 +35,10 @@ public class Database {
         return personalInformation.keySet().stream().map(
                 key -> personalInformation.get(key)
         ).toList();
+    }
+
+    public List<PersonalInformation> getPersonalInformation(List<String> keys){
+        return keys.stream().map(key -> personalInformation.get(key)).toList();
     }
 
     public List<Path> getAllPath(){
