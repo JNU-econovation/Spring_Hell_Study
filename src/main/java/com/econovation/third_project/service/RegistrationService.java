@@ -26,6 +26,11 @@ public class RegistrationService {
 
     //분야별 지원자 수
     public List<ApplicantNumberInJob> getApplicantNumbersEachJob(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return db.getAllRegistrations().stream()
                 .collect(Collectors.groupingBy(Registration::getHopeJob, Collectors.counting()))
                 .entrySet().stream()
@@ -41,6 +46,11 @@ public class RegistrationService {
 
     //세부 분야별 지원자 수
     public List<ApplicantNumberInField> getApplicantNumberEachField(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Map<Field, int[]> jobPriorityCounts = new EnumMap<>(Field.class);
 
         for (Field field : Field.values())

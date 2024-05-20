@@ -16,6 +16,11 @@ public class DesiredTimeService {
     //입력할 때 2개인지 확인해야 함
 
     public List<ApplicantNumberInTime> getApplicantNumberEachTime(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return db.getAllDesiredTime().stream()
                 .flatMap(desiredTime -> desiredTime.getDesiredTimes().stream())
                 .collect(Collectors.groupingBy(time -> time, Collectors.counting()))

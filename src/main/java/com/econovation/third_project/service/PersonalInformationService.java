@@ -15,6 +15,11 @@ public class PersonalInformationService {
 
     //학과별 지원자 수
     public List<ApplicantNumberInMajor> getApplicantNumberEachMajor(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         Map<String, Integer> majorCounts = new HashMap<>();
 
         db.getAllPersonalInformation().forEach(info -> {

@@ -31,15 +31,18 @@ public class AdminQueryController {
     //쿼리 파라미터
     @GetMapping("/applicants")
     public ResponseEntity<Map<String, List<?>>> getApplicantsInfo(){
-
-        return ResponseEntity.ok().body(Map.of(
+        long start = System.currentTimeMillis();
+        ResponseEntity<Map<String, List<?>>> response = ResponseEntity.ok().body(Map.of(
                 "job", registrationService.getApplicantNumbersEachJob(),
                 "field", registrationService.getApplicantNumberEachField(),
                 "major", personalInformationService.getApplicantNumberEachMajor(),
                 "path", pathService.getApplicantNumberEachPath(),
                 "desired_time", desiredTimeService.getApplicantNumberEachTime()
         ));
+        System.out.println(System.currentTimeMillis() - start);
+        return response;
     }
+
 
 
 

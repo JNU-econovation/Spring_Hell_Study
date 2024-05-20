@@ -14,6 +14,11 @@ public class PathService {
     private final Database db;
 
     public List<ApplicantNumberInPath> getApplicantNumberEachPath(){
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return db.getAllPath().stream()
                 .flatMap(path-> path.getSupportPaths().stream())
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
