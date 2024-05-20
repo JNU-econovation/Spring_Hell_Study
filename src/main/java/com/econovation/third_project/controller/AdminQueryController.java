@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,23 +37,43 @@ public class AdminQueryController {
 
     @GetMapping("/admin/{applicants}/{majors}/{programmers}/{path}/{desiredTime}")
     public ResponseEntity<AdminQueryResponse> getAdmin(
-            @PathVariable(required = false) String applicants, @PathVariable(required = false) String majors,
-            @PathVariable(required = false) String programmers, @PathVariable(required = false) String path, @PathVariable(required = false) String desiredTime) {
+            @PathVariable(required = false) String applicants,
+            @PathVariable(required = false) String majors,
+            @PathVariable(required = false) String programmers,
+            @PathVariable(required = false) String path,
+            @PathVariable(required = false) String desiredTime) throws ExecutionException, InterruptedException {
 
+        CompletableFuture<List<ApplicantDTO>> applicantFuture = applicants.isEmpty()
+                ? null
+                : CompletableFuture.supplyAsync(() -> applicantQueryService.execute());
 
-        List<ApplicantDTO> applicantDTOS = applicants.isEmpty() ? null : applicantQueryService.execute();
-        List<MajorDTO> majorDTOS = majors.isEmpty() ? null : majorQueryService.execute();
-        List<ProgrammerFieldDTO> programmerDTOS = programmers.isEmpty() ? null : hopeFieldQueryService.execute();
-        List<PathDTO> pathDTOS = path.isEmpty() ? null : supportPathQueryService.execute();
-        List<DesiredTimeDTO> desiredTimeDTOS = desiredTime.isEmpty() ? null :  desiredTimeQueryService.execute();
+        CompletableFuture<List<MajorDTO>> majorFuture = majors.isEmpty()
+                ? null
+                : CompletableFuture.supplyAsync(() -> majorQueryService.execute());
 
-        return ResponseEntity.ok().body(AdminQueryResponse.builder()
-                .applicants(applicantDTOS)
-                .majors(majorDTOS)
-                .programmers(programmerDTOS)
-                .path(pathDTOS)
-                .desiredTime(desiredTimeDTOS)
-                .build());
+        CompletableFuture<List<ProgrammerFieldDTO>> programmerFuture = programmers.isEmpty()
+                ? null
+                : CompletableFuture.supplyAsync(() -> hopeFieldQueryService.execute());
+
+        CompletableFuture<List<PathDTO>> pathFuture = path.isEmpty()
+                ? null
+                : CompletableFuture.supplyAsync(() -> supportPathQueryService.execute());
+
+        CompletableFuture<List<DesiredTimeDTO>> desiredTimeFuture = desiredTime.isEmpty()
+                ? null
+                : CompletableFuture.supplyAsync(() -> desiredTimeQueryService.execute());
+
+        CompletableFuture<AdminQueryResponse> completableFuture = CompletableFuture.allOf(applicantFuture, majorFuture, programmerFuture, pathFuture, desiredTimeFuture)
+                .thenApply(Void -> AdminQueryResponse.builder()
+                        .applicants(applicantFuture.join())
+                        .majors(majorFuture.join())
+                        .programmers(programmerFuture.join())
+                        .path(pathFuture.join())
+                        .desiredTime(desiredTimeFuture.join())
+                        .build());
+
+        return ResponseEntity.ok().body(completableFuture.get());
     }
+
 
 }
