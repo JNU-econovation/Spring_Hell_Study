@@ -1,5 +1,6 @@
 package com.econovation.third_project.database;
 
+import com.econovation.third_project.domain.Major;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,12 +25,12 @@ public class PersonalInformation {
     private Integer semester;
 
     // 전공
-    private String major;
+    private Major major;
 
     // 복수전공
-    private String doubleMajor;
+    private Major doubleMajor;
     // 부전공
-    private String minor;
+    private Major minor;
 
 
 

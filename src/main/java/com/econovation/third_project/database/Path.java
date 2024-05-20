@@ -1,5 +1,6 @@
 package com.econovation.third_project.database;
 
+import com.econovation.third_project.domain.SupportPath;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -8,5 +9,5 @@ import lombok.Getter;
 public class Path {
     String registrationId;
     // 지원 경로
-    private String supportPath;
+    private SupportPath supportPath;
 }
