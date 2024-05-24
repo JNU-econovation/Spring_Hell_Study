@@ -5,6 +5,10 @@ import com.econovation.third_project.dto.ApplicantNumberInMajor;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,17 +24,13 @@ public class PersonalInformationService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        Map<String, Integer> majorCounts = new HashMap<>();
 
-        db.getAllPersonalInformation().forEach(info -> {
-            //주전공
-            majorCounts.merge(info.getMajor(), 1, Integer::sum);
-            //복수전공
-            info.getDoubleMajor().ifPresent(doubleMajor -> majorCounts.merge(doubleMajor, 1, Integer::sum));
-        });
-
-        return majorCounts.entrySet().stream()
-                .map(entry -> new ApplicantNumberInMajor(entry.getKey(), entry.getValue()))
+        return db.getAllPersonalInformation().stream()
+                .flatMap(info-> Stream.of(info.getMajor(), info.getDoubleMajor().orElse(null)))
+                .filter(Objects::nonNull)
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .map(entry-> new ApplicantNumberInMajor(entry.getKey(), entry.getValue().intValue()))
                 .toList();
     }
 }

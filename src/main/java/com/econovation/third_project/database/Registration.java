@@ -15,19 +15,16 @@ public class Registration {
     private Job hopeJob;
     @NonNull
     private Field firstPriority;
+    @Getter
     private Field secondPriority;
 
     public static Registration of(@NonNull String hopeJob, @NonNull String firstJobFieldName, String secondJobFieldName){
         Job job = Job.valueOf(hopeJob.toUpperCase());
 
         Field firstPriority = Field.valueOf(firstJobFieldName.toUpperCase());
-        Field secondPriority = secondJobFieldName != null ?
-                Field.valueOf(secondJobFieldName.toUpperCase()) : null;
+        Field secondPriority = Field.valueOf(secondJobFieldName.toUpperCase());
 
         return new Registration(job, firstPriority, secondPriority);
-    }
-    public Optional<Field> getSecondPriority(){
-        return Optional.ofNullable(this.secondPriority);
     }
 
 }
