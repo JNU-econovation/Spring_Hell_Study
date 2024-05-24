@@ -2,16 +2,21 @@ package com.econovation.third_project.agrregate;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+//TODO: 제네릭?
 @Component
-@RequiredArgsConstructor
 public class AdminPageQueryAggregator {
-    private final List<AdminPageQuery> queries;
+    private final Map<String, AdminPageQuery> queries;
+    public AdminPageQueryAggregator(List<AdminPageQuery> queries) {
+        this.queries = queries.stream()
+                .collect(Collectors.toMap(AdminPageQuery::getType, Function.identity()));
+    }
 
     public Map<String, List<?>> aggregate(Set<String> requests){
         List<AdminPageQuery> queriesToExecute = getQueriesToExecute(requests);
@@ -20,8 +25,10 @@ public class AdminPageQueryAggregator {
     }
 
     private List<AdminPageQuery> getQueriesToExecute(Set<String> requests){
-        return this.queries.stream()
-                .filter(query -> requests.contains(query.getType()))
+        return requests.stream()
+                .map(request -> Optional.ofNullable(queries.get(request))
+                        .orElseThrow(IllegalArgumentException::new)
+                )
                 .toList();
     }
 
