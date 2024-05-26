@@ -1,5 +1,6 @@
 package com.econovation.third_project.database;
 
+import com.econovation.third_project.controller.AggregateQuery;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

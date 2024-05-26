@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 @RequiredArgsConstructor
 public class AdminQueryController {
+
     private final Database database;
 
     // 예시 코드
@@ -20,9 +21,9 @@ public class AdminQueryController {
         database.register(registration);
         return ResponseEntity.ok().build();
     }
+
     @GetMapping("/registration")
     public ResponseEntity<Registration> getRegistration(String userId) {
         return ResponseEntity.ok().body(database.getRegistration(userId));
     }
-
 }
