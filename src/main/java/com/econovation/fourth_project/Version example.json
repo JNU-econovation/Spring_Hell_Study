@@ -1,0 +1,18 @@
+{
+  "Statement": [
+    {
+      "Sid": "ExampleStatement1",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::example_bucket"
+    },
+    {
+      "Sid": "ExampleStatement2",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:DeleteObject",
+      "Resource": "s3:::example_bucket/*"
+    }
+  ]
+}
